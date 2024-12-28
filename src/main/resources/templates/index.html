@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>メインページ</title>
+</head>
+<body>
+    <div>
+        <h1>Random Quest</h1>
+        <p>~毎日に小さな刺激を~</p>
+    </div>
+
+    <div>
+        <h2>ログイン</h2>
+        <form th:action="@{/login}" method="post">
+            <input type="text" placeholder="ユーザーネーム">
+            <input type="password" placeholder="パスワード">
+            <button type="submit">ログイン</button>
+        </form>
+    </div>
+    
+</body>
+</html>

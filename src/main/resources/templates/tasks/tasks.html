@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quest</title>
+</head>
+<body>
+    <h1>Random Quest</h1>
+    <a th:href="@{/}">メインページ</a>
+
+    <div>
+        <p th:text="'今日(' + ${year} + '/' + ${month} + '/' + ${date} + ')のミッションを決める'"></p>
+        <form th:action="@{/select}" method="post">
+            <button type="submit">Select</button>
+        </form>
+        <p>今日のミッションは</p>
+        <p th:if="${task != null}" th:text="'「' + ${task} + '」'"></p>
+        <button th:if="*{task != null}" >完了!</button>
+    </div>
+
+    <a th:href="@{/tasks/record}">日々の記録</a>
+</body>
+</html>
