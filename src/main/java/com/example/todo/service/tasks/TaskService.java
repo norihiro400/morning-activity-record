@@ -2,11 +2,16 @@ package com.example.todo.service.tasks;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.todo.controller.tasks.TasksDTO;
+import com.example.todo.repository.TaskRepository;
 
 @Service
 public class TaskService {
+    @Autowired
+    TaskRepository taskRepository;
+    
     //ランダムにタスクを決定する処理
     public String find(){
         var task1 = new TasksDTO("ランニングをしよう！");
@@ -18,5 +23,9 @@ public class TaskService {
         int num = rand.nextInt(3);
 
         return taskList.get(num).task();
+    }
+
+    public void cmptask(CompletedTaskEntity entity){
+        taskRepository.save(entity);
     }
 }

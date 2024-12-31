@@ -8,18 +8,26 @@
 </head>
 <body>
     <h1>Random Quest</h1>
-    <a th:href="@{/}">メインページ</a>
+    <a th:href="@{/}">ログインページ</a>
 
     <div>
         <p th:text="'今日(' + ${year} + '/' + ${month} + '/' + ${date} + ')のミッションを決める'"></p>
-        <form th:action="@{/select}" method="post">
+        <form th:action="@{tasks/select}" method="post">
             <button type="submit">Select</button>
         </form>
-        <p>今日のミッションは</p>
-        <p th:if="${task != null}" th:text="'「' + ${task} + '」'"></p>
-        <button th:if="*{task != null}" >完了!</button>
-    </div>
 
+        <form th:action="@{tasks/complete}" method="post">
+            <input type="hidden" name="task" th:value="${task}">
+            <input type="hidden" name="year" th:value="${year}">
+            <input type="hidden" name="month" th:value="${month}">
+            <input type="hidden" name="date" th:value="${date}">
+            <p>今日のミッションは</p>
+            <p th:if="${task != null}" th:text="'「' + ${task} + '」'"></p>
+            <button th:if="*{task != null}" >完了!</button>
+        </form>
+
+    </div>
+    <br>
     <a th:href="@{/tasks/record}">日々の記録</a>
 </body>
 </html>

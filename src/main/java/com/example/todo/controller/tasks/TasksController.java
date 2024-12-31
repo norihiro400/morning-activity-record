@@ -4,9 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import com.example.todo.service.tasks.CompletedTaskEntity;
 import com.example.todo.service.tasks.TaskService;
 import jakarta.servlet.http.HttpSession;
 import java.util.Calendar;
+
 
 @Controller
 public class TasksController {
@@ -31,15 +34,25 @@ public class TasksController {
         return "tasks/tasks";
     }
     //ミッションを選択する
-    @PostMapping("select")
+    @PostMapping("tasks/select")
     public String select_task(){
         var task = taskService.find();
         session.setAttribute("task", task);
         return "redirect:/tasks";
     }
 
+    //完了したミッションの記録の表示
     @GetMapping("tasks/record")
-    public String record(){
+    public String record(Model model){
+        model.addAttribute("key", "value");
         return "tasks/record";
     }
+
+    @PostMapping("tasks/complete")
+    public String complete(TaskForm form){
+        CompletedTaskEntity entity = new CompletedTaskEntity(null, form.task(), form.year(), form.month(), form.date());
+        taskService.cmptask(entity);
+        return "redirect:/tasks";
+    }
+    
 }
