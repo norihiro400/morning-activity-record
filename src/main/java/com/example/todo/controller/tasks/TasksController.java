@@ -9,6 +9,7 @@ import com.example.todo.service.tasks.CompletedTaskEntity;
 import com.example.todo.service.tasks.TaskService;
 import jakarta.servlet.http.HttpSession;
 import java.util.Calendar;
+import java.util.List;
 
 
 @Controller
@@ -44,14 +45,15 @@ public class TasksController {
     //完了したミッションの記録の表示
     @GetMapping("tasks/record")
     public String record(Model model){
-        model.addAttribute("key", "value");
+        List<CompletedTaskEntity> entity;
+        entity = taskService.findAll();
+        model.addAttribute("cmptasklist",entity);
         return "tasks/record";
     }
-
+    //ミッション完了
     @PostMapping("tasks/complete")
     public String complete(TaskForm form){
-        CompletedTaskEntity entity = new CompletedTaskEntity(null, form.task(), form.year(), form.month(), form.date());
-        taskService.cmptask(entity);
+        taskService.cmptask(form.toEntity());
         return "redirect:/tasks";
     }
     

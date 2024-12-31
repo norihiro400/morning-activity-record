@@ -28,4 +28,7 @@ public class CompletedTaskEntity {
         this.date = date;
     }
 
+    public CompletedTaskEntity(){
+        
+    }
 }

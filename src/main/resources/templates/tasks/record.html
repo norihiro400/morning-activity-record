@@ -1,14 +1,32 @@
 <!DOCTYPE html>
 <html lang="ja">
 <html xmlns:th="http://www.thymeleaf.org">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>日々の記録</title>
 </head>
-<body>
+<body class="container">
     <h1>記録</h1>
     <a th:href="@{/tasks}">メインページに戻る</a>
     
+    <div>
+        <p>-- 完了したミッション --</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>タスク</th>
+                    <th>日付</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="task:${cmptasklist}" th:object="${task}">
+                    <td th:text="*{task}"></td>
+                    <td th:text="*{year + '/' + month + '/' + date}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
