@@ -35,4 +35,8 @@ public class TaskService {
     public List<CompletedTaskEntity> findAll(){
         return taskRepository.findAll();
     }
+    //完了したミッションの削除
+    public void deletetasks(){
+        taskRepository.deleteAll();
+    }
 }

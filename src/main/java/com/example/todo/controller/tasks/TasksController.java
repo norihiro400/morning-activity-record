@@ -56,5 +56,11 @@ public class TasksController {
         taskService.cmptask(form.toEntity());
         return "redirect:/tasks";
     }
+    //達成したミッション履歴の全削除(いったん練習のための実装)
+    @PostMapping("tasks/delete")
+    public String delete(Model model){
+        taskService.deletetasks();
+        return "redirect:/tasks/record";
+    }
     
 }

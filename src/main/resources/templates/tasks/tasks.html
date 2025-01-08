@@ -9,7 +9,14 @@
 </head>
 <body class="container">
     <h1>Random Quest</h1>
-    <a th:href="@{/}">ログインページ</a>
+    <div>
+        <tr>
+            <td><a th:href="@{/}">ログインページ</a></td>
+            <td><a th:href="@{/tasks/record}">日々の記録</a></td>
+            <td><a th:href="@{/}">日記を書く</a></td>
+        </tr>
+
+    </div>
 
     <div>
         <p th:text="'今日(' + ${year} + '/' + ${month} + '/' + ${date} + ')のミッションを決める'"></p>
@@ -29,6 +36,5 @@
 
     </div>
     <br>
-    <a th:href="@{/tasks/record}">日々の記録</a>
 </body>
 </html>

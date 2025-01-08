@@ -13,6 +13,9 @@
     
     <div>
         <p>-- 完了したミッション --</p>
+        <form th:action="@{/tasks/delete}" method="post">
+            <button type="submit" id="deletebutton">削除</button>
+        </form>
         <table>
             <thead>
                 <tr>

@@ -16,8 +16,8 @@
     <div>
         <h2>ログイン</h2>
         <form th:action="@{/}" method="post">
-            <input type="text" placeholder="ユーザーネーム">
-            <input type="password" placeholder="パスワード">
+            <input type="text" placeholder="ユーザーネーム" name="username">
+            <input type="password" placeholder="パスワード" name="password">
             <button type="submit">ログイン</button>
         </form>
     </div>
