@@ -30,13 +30,8 @@ public class TaskService {
     public void cmptask(CompletedTaskEntity entity){
         taskRepository.save(entity);
     }
-
     //データベースからすべての完了済みミッションをとってくる
     public List<CompletedTaskEntity> findAll(){
         return taskRepository.findAll();
-    }
-    //完了したミッションの削除
-    public void deletetasks(){
-        taskRepository.deleteAll();
     }
 }

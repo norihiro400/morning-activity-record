@@ -8,22 +8,30 @@
     <title>Random Quest</title>
 </head>
 <body class="container">
-    <h1>Random Quest</h1>
-    <div>
-        <tr>
-            <td><a th:href="@{/}">ログインページ</a></td>
-            <td><a th:href="@{/tasks/record}">日々の記録</a></td>
-            <td><a th:href="@{/}">日記を書く</a></td>
-        </tr>
-
-    </div>
-
+    <h1 class="text-center">Random Quest</h1>
+    <nav class="navbar bg-info py-3" data-bs-theme="dark">
+        <div class="container">
+            <ul class="nav justify-content-center">
+                <li class="nav-item px-3">
+                    <a class="nav-link text-white btn btn-secondary" th:href="@{/}">ログインページ</a>
+                </li>
+                <li class="nav-item px-3">
+                    <a class="nav-link text-white btn btn-secondary" th:href="@{/tasks/record}">日々の記録</a>
+                </li>
+                <li class="nav-item px-3">
+                    <a class="nav-link text-white btn btn-secondary" th:href="@{/tasks}">日記を書く</a>
+                </li>
+                <li class="nav-item px-3">
+                    <a class="nav-link text-white btn btn-secondary" th:href="@{/tasks}">進行中のタスク</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div>
         <p th:text="'今日(' + ${year} + '/' + ${month} + '/' + ${date} + ')のミッションを決める'"></p>
         <form th:action="@{tasks/select}" method="post">
             <button type="submit">Select</button>
         </form>
-
         <form th:action="@{tasks/complete}" method="post">
             <input type="hidden" name="task" th:value="${task}">
             <input type="hidden" name="year" th:value="${year}">
@@ -33,7 +41,6 @@
             <p th:if="${task != null}" th:text="'「' + ${task} + '」'"></p>
             <button th:if="*{task != null}" >完了!</button>
         </form>
-
     </div>
     <br>
 </body>
