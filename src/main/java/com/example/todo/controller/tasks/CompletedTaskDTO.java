@@ -5,6 +5,7 @@ public record CompletedTaskDTO(
     int year,
     int month,
     int date
+    
 ) {
     
 }
