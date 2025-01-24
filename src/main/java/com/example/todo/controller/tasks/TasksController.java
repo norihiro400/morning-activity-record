@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.todo.service.tasks.CompletedTaskEntity;
+import com.example.todo.service.tasks.TaskEntity;
 import com.example.todo.service.tasks.TaskService;
 import jakarta.servlet.http.HttpSession;
 import java.util.Calendar;
@@ -36,29 +36,18 @@ public class TasksController {
     }
     // 朝活の内容を入力、決定する
     @PostMapping("tasks/input")
-    public String input_task(){
+    public String input_task(TaskForm form){
+        var taskEntity = form.toEntity();
+        taskService.createtask(taskEntity);
         return "redirect:/tasks";
     }
-    // //ミッションを選択する
-    // @PostMapping("tasks/select")
-    // public String select_task(){
-    //     var task = taskService.find();
-    //     session.setAttribute("task", task);
-    //     return "redirect:/tasks";
-    // }
 
     // 完了したミッションの記録の表示
     @GetMapping("tasks/record")
-    public String record(Model model){
-        List<CompletedTaskEntity> entity;
-        entity = taskService.findAll();
-        model.addAttribute("cmptasklist",entity);
+    public String record(){
+        // List<CompletedTaskEntity> entity;
+        // entity = taskService.findAll();
+        // model.addAttribute("cmptasklist",entity);
         return "tasks/record";
-    }
-    // //ミッション完了
-    // @PostMapping("tasks/complete")
-    // public String complete(TaskForm form){
-    //     taskService.cmptask(form.toEntity());
-    //     return "redirect:/tasks";
-    // }    
+    }  
 }

@@ -12,26 +12,14 @@ import jakarta.transaction.Transactional;
 public class TaskService {
     @Autowired
     TaskRepository taskRepository;
-    
-    //ランダムにタスクを決定する処理
-    public String find(){
-        var task1 = new TasksDTO("ランニングをしよう！");
-        var task2 = new TasksDTO("思い切って外食しよう！");
-        var task3 = new TasksDTO("近所を散歩しよう");
 
-        var taskList = List.of(task1,task2,task3);
-        Random rand = new Random();
-        int num = rand.nextInt(3);
-
-        return taskList.get(num).task();
-    }
     //完了したミッションをデータベースに保存
     @Transactional
-    public void cmptask(CompletedTaskEntity entity){
+    public void createtask(TaskEntity entity){
         taskRepository.save(entity);
     }
     //データベースからすべての完了済みミッションをとってくる
-    public List<CompletedTaskEntity> findAll(){
+    public List<TaskEntity> findAll(){
         return taskRepository.findAll();
     }
 }
