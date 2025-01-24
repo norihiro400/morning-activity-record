@@ -5,11 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Quest</title>
+    <title>LET'S朝活</title>
 </head>
 <body class="container">
     <div class="text-center">
-        <h1 class="text-center">Random Quest</h1>
+        <h1 class="text-center">LET'S朝活</h1>
     </div>
     <nav class="navbar bg-info py-3" data-bs-theme="dark">
         <div class="container">
@@ -18,37 +18,45 @@
                     <a class="nav-link text-white btn btn-secondary" th:href="@{/}">ログインページ</a>
                 </li>
                 <li class="nav-item px-3">
-                    <a class="nav-link text-white btn btn-secondary" th:href="@{/tasks/record}">日々の記録</a>
+                    <a class="nav-link text-white btn btn-secondary" th:href="@{/tasks/record}">朝活の記録</a>
                 </li>
                 <li class="nav-item px-3">
                     <a class="nav-link text-white btn btn-secondary" th:href="@{/tasks}">日記を書く</a>
                 </li>
                 <li class="nav-item px-3">
-                    <a class="nav-link text-white btn btn-secondary" th:href="@{/tasks}">進行中のタスク</a>
+                    <a class="nav-link text-white btn btn-secondary" th:href="@{/tasks}">コミュニティ</a>
                 </li>
             </ul>
         </div>
     </nav>
     <br>
+    <!-- <p class="fs-5 fw-bold" th:text="'今日(' + ${year} + '/' + ${month} + '/' + ${date} + ')のミッションを決める'"></p> -->
     <div class="container card">
         <div class="card-header">
-            <p class="fs-5 fw-bold" th:text="'今日(' + ${year} + '/' + ${month} + '/' + ${date} + ')のミッションを決める'"></p>
+            <p class="fs-5 fw-bold">明日の朝活は何する???</p>
         </div>
         <div class="card-body">
             <div class="form-group">
                 <div>
-                    <label class="form-label">ジャンル</label>
+                    <label class="form-label">ジャンルを選択</label>
                 </div>
                 <div class="btn-group">
-                    <input class="btn-check" type="checkbox" name="genre" id="genretech" value="技術系">
-                    <label class="btn btn-outline-primary" for="genretech">技術系</label>
+                    <input class="btn-check" type="checkbox" name="genre" id="genretech" value="勉強系">
+                    <label class="btn btn-outline-primary" for="genretech">勉強系</label>
                     <input class="btn-check" type="checkbox" name="genre" id="genrelife" value="日常系">
                     <label class="btn btn-outline-primary" for="genrelife">日常系</label>
                     <input class="btn-check" type="checkbox" name="genre" id="genremove" value="運動系">
                     <label class="btn btn-outline-primary" for="genremove">運動系</label>
                 </div>
             </div>
-            <form th:action="@{tasks/complete}" method="post">
+            <hr>
+            <div>
+                <form th:action="@{tasks/input}" method="post">
+                    <input type="text" placeholder="朝活の内容を決めよう">
+                    <button type="submit" class="btn btn-secondary">決定!</button>
+                </form>
+            </div>
+            <!-- <form th:action="@{tasks/complete}" method="post">
                 <input type="hidden" name="task" th:value="${task}">
                 <input type="hidden" name="year" th:value="${year}">
                 <input type="hidden" name="month" th:value="${month}">
@@ -62,7 +70,7 @@
                 <form th:action="@{tasks/select}" method="post">
                     <button th:if="${task==null}" type="submit">今日のミッションを決める!</button>
                 </form>
-            </div>
+            </div> -->
         </div>
 
     </div>

@@ -34,15 +34,20 @@ public class TasksController {
         model.addAttribute("date", calendar.get(Calendar.DATE));
         return "tasks/tasks";
     }
-    //ミッションを選択する
-    @PostMapping("tasks/select")
-    public String select_task(){
-        var task = taskService.find();
-        session.setAttribute("task", task);
+    // 朝活の内容を入力、決定する
+    @PostMapping("tasks/input")
+    public String input_task(){
         return "redirect:/tasks";
     }
+    // //ミッションを選択する
+    // @PostMapping("tasks/select")
+    // public String select_task(){
+    //     var task = taskService.find();
+    //     session.setAttribute("task", task);
+    //     return "redirect:/tasks";
+    // }
 
-    //完了したミッションの記録の表示
+    // 完了したミッションの記録の表示
     @GetMapping("tasks/record")
     public String record(Model model){
         List<CompletedTaskEntity> entity;
@@ -50,10 +55,10 @@ public class TasksController {
         model.addAttribute("cmptasklist",entity);
         return "tasks/record";
     }
-    //ミッション完了
-    @PostMapping("tasks/complete")
-    public String complete(TaskForm form){
-        taskService.cmptask(form.toEntity());
-        return "redirect:/tasks";
-    }    
+    // //ミッション完了
+    // @PostMapping("tasks/complete")
+    // public String complete(TaskForm form){
+    //     taskService.cmptask(form.toEntity());
+    //     return "redirect:/tasks";
+    // }    
 }
