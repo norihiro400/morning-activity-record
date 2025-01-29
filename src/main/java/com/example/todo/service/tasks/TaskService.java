@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.todo.controller.tasks.TasksDTO;
+import com.example.todo.controller.tasks.TaskDTO;
 import com.example.todo.repository.TaskRepository;
 
 import jakarta.transaction.Transactional;

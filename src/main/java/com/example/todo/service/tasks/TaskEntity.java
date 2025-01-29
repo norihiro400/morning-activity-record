@@ -1,7 +1,11 @@
 package com.example.todo.service.tasks;
+import java.util.List;
+
 import com.example.todo.controller.tasks.TaskLabel;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,7 +21,10 @@ public class TaskEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String task;
+    
+    @Enumerated(EnumType.STRING) 
     private TaskLabel label;
+
     private boolean isDone;
 
     public TaskEntity(Long id,String task,TaskLabel label,boolean isDone){

@@ -6,5 +6,26 @@
 <section layout:fragment="content">
     <h1>記録</h1>
     <a th:href="@{/tasks}">メインページに戻る</a>
+    <br>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>日付</th>
+                    <th>タイトル</th>
+                    <th>ジャンル</th>
+                    <th>詳細</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="task:${tasklist}" th:object="${task}">
+                    <td>2025年1月29日</td>
+                    <td th:text="*{task}"></td>
+                    <td th:text="*{label}"></td>
+                    <td>詳細はこちら</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </section>
 </html>

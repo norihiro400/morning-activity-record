@@ -4,39 +4,31 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 <head>
-    <title>LET'S朝活</title>
+    <title>LET'S朝勝</title>
 </head>
 <body>
 <section layout:fragment="content">
     <div class="container card">
         <div class="card-header">
-            <p class="fs-5 fw-bold">明日の朝活は何する???</p>
+            <p class="fs-5 fw-bold">明日(<span th:text="${tomorror_month}"></span>月<span th:text="${tomorror_day}"></span>日)の朝活は何する???</p>
         </div>
         <div class="card-body">
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <div>
                     <label class="form-label">ジャンルを選択</label>
                 </div>
-            </div>
-            <br>
+            </div> -->
+            <!-- <br> -->
             <div>
                 <form th:action="@{tasks/input}" method="post">
-                    <div class="btn-group mb-3">
-                        <input class="btn-check" type="checkbox" name="label" id="study" value="勉強系">
-                        <label class="btn btn-outline-primary" for="study">勉強系</label>
-                        <input class="btn-check" type="checkbox" name="label" id="life" value="日常系">
-                        <label class="btn btn-outline-primary" for="life">日常系</label>
-                        <input class="btn-check" type="checkbox" name="label" id="sports" value="運動系">
-                        <label class="btn btn-outline-primary" for="sports">運動系</label>
-                    </div>
-                    <!-- <div>
+                    <div class="mb-3">
                         <label for="tasklabel">ジャンルを選択</label>
                         <select name="label" id="tasklabel">
                             <option value="勉強系">勉強系</option>
                             <option value="日常系">日常系</option>
                             <option value="運動系">運動系</option>
                         </select>
-                    </div> -->
+                    </div>
                     <div class="mb-3">
                         <input type="text" name="task" placeholder="朝活の内容を決めよう">                        
                     </div>
