@@ -1,8 +1,5 @@
 package com.example.todo.service.tasks;
-import java.util.List;
-
 import com.example.todo.controller.tasks.TaskLabel;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -21,7 +18,7 @@ public class TaskEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String task;
-    
+
     @Enumerated(EnumType.STRING) 
     private TaskLabel label;
 

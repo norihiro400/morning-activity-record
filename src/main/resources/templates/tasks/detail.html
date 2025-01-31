@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<section layout:fragment="content">
+    <div th:object="${task}">
+    <p th:text="*{id}"></p>
+    <p th:text="*{task}"></p>
+    </div>
+</section>
+</html>

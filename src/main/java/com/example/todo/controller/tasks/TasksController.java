@@ -3,13 +3,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.todo.controller.getdate.GetDate;
 import com.example.todo.service.tasks.TaskEntity;
 import com.example.todo.service.tasks.TaskService;
 import jakarta.servlet.http.HttpSession;
-import java.util.Calendar;
 import java.util.List;
 
 
@@ -43,11 +43,27 @@ public class TasksController {
         return "redirect:/tasks";
     }
 
-    // 完了したミッションの記録の表示
+    // 完了または未達成のミッションの記録の表示
     @GetMapping("tasks/record")
-    public String record(Model model){
-        var taskList = taskService.findAll().stream().map(TaskDTO::toDTO).toList();
+    public String record(Model model,boolean flag){
+        var taskList = taskService.findByDone(flag).stream().map(TaskDTO::toDTO).toList();
         model.addAttribute("tasklist",taskList);
         return "tasks/record";
     }  
+
+    // 詳細画面
+    @GetMapping("tasks/{id}")
+    public String detail(@PathVariable("id") Long taskid, Model model){
+        var task = taskService.findById(taskid).orElseThrow(() -> new RuntimeException("タスクが見つかりません"));
+        model.addAttribute("task",task);
+        return "tasks/detail";
+    };
+
+    //ジャンルでソート
+    @PostMapping("tasks/record/sort")
+    public String sort_by_genre(SelectByForm form,Model model){
+        var flag = form.isDone();
+        return record(model, flag);
+    }
 }
+

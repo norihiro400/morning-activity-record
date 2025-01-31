@@ -6,6 +6,15 @@
 <section layout:fragment="content">
     <h1>記録</h1>
     <a th:href="@{/tasks}">メインページに戻る</a>
+    <div>
+        <form th:action="@{/tasks/record/sort}" method="post">
+            <select name="isDone" id="taskstatus">
+                <option value="true">達成済み</option>
+                <option value="false">未達成</option>
+            </select>
+            <button type="submit">選択</button>
+        </form>
+    </div>
     <br>
     <div>
         <table>
@@ -22,7 +31,7 @@
                     <td>2025年1月29日</td>
                     <td th:text="*{task}"></td>
                     <td th:text="*{label}"></td>
-                    <td>詳細はこちら</td>
+                    <td><a th:href="@{/tasks/{id}(id=*{id})}">詳細を見る</a></td>
                 </tr>
             </tbody>
         </table>
