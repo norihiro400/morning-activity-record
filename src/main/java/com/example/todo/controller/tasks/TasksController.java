@@ -5,11 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import com.example.todo.controller.getdate.GetDate;
-import com.example.todo.service.tasks.TaskEntity;
 import com.example.todo.service.tasks.TaskService;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 
@@ -19,16 +16,10 @@ public class TasksController {
 
     @Autowired
     TaskService taskService;
-    @Autowired
-    HttpSession session;
 
     //メイン画面
     @GetMapping("/tasks")
     public String view(Model model){
-        String task = (String)session.getAttribute("task");
-        if (task != null){
-            model.addAttribute("task", task);
-        }
         //明日の日付を取得
         List<Integer> tomorror = GetDate.getTomorror();
         model.addAttribute("tomorror_month", tomorror.get(1));
@@ -64,6 +55,12 @@ public class TasksController {
     public String sort_by_genre(SelectByForm form,Model model){
         var flag = form.isDone();
         return record(model, flag);
+    }
+
+    //朝活コミュニティ(悩み相談とか)
+    @GetMapping("tasks/comunity")
+    public String comunity(){
+        return "tasks/comunity";
     }
 }
 

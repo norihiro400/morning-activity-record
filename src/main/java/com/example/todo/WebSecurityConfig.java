@@ -13,14 +13,14 @@ public class WebSecurityConfig {
     public SecurityFilterChain SecurityFilterChain(HttpSecurity http) throws Exception{
     		http
 			.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/").permitAll()
+				.requestMatchers("/login").permitAll()
 				.anyRequest().authenticated()
 			)
 			.formLogin((form) -> form
-				.loginPage("/")
+				.loginPage("/login")
 				.permitAll()
                 .defaultSuccessUrl("/tasks",true)
-                .failureUrl("/")
+                .failureUrl("/login")
 			)
 			.logout((logout) -> logout.permitAll());
 
