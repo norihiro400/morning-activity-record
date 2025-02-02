@@ -1,5 +1,7 @@
 package com.example.todo.controller.login;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,6 +18,8 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+
+    //ログイン機能
     @GetMapping("/login")
     public String loginpage(){
         return "login/login";
@@ -24,6 +28,18 @@ public class LoginController {
     public String login(){
         return "redirect:/tasks";
     }
+
+    @GetMapping("/")
+    public String index(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()){
+            return "redirect:/tasks";
+        }
+        return "redirect:/login";
+    }
+
+
+    //新規登録機能
     @GetMapping("/register")
     public ModelAndView registerform(){
         ModelAndView mav = new ModelAndView();
@@ -41,21 +57,5 @@ public class LoginController {
         userService.save(userDTO);
         return "redirect:/login";
     }
-    // @PostMapping("/register")
-    // public String register(@ModelAttribute UserDTO userDTO) {
-    //     System.out.println("🚀 register() called");
-    //     System.out.println("📝 Received User: " + userDTO.getUsername() + " / " + userDTO.getEmail());
-    
-    //     UserEntity existing = userService.findByUsername(userDTO.getUsername());
-    //     if (existing != null) {
-    //         System.out.println("⚠️ Username already exists: " + userDTO.getUsername());
-    //         return "login/register";
-    //     }
-    
-    //     userService.save(userDTO);
-    //     System.out.println("✅ User saved: " + userDTO.getUsername());
-    
-    //     return "redirect:/login";
-    // }
     
 }
