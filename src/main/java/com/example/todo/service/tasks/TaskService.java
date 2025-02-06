@@ -1,10 +1,9 @@
 package com.example.todo.service.tasks;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.todo.controller.tasks.TaskDTO;
 import com.example.todo.repository.TaskRepository;
 
 import jakarta.transaction.Transactional;
@@ -32,7 +31,12 @@ public class TaskService {
     public List<TaskEntity> findByDone(boolean isDone){
         return taskRepository.findByIsDone(isDone);
     }
-    public void delete() {
-       taskRepository.deleteAll();
+    //次の日の予定された朝活を取得
+    public List<TaskEntity> findNextTask(){
+        return taskRepository.findByScheduledDate(LocalDate.now().plusDays(1));
+    }
+    //指定したidのタスクを削除
+    public void deleteById(Long taskid){
+        taskRepository.deleteById(taskid);
     }
 }

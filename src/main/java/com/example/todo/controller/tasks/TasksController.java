@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.example.todo.controller.getdate.GetDate;
 import com.example.todo.service.tasks.TaskService;
-import java.util.List;
-
-
 
 @Controller
 public class TasksController {
@@ -22,12 +19,23 @@ public class TasksController {
     //メイン画面
     @GetMapping("/tasks")
     public String view(Model model){
+        var tomorror_task = taskService.findNextTask().stream().map(TaskDTO::toDTO).toList();
+        if (tomorror_task.isEmpty()){
+            model.addAttribute("task", "予定された朝活はありません");
+        }
         //明日の日付を取得
-        List<Integer> tomorror = GetDate.getTomorror();
-        model.addAttribute("tomorror_month", tomorror.get(1));
-        model.addAttribute("tomorror_day", tomorror.get(2));
+        String tomorror = GetDate.getTomorror();
+        model.addAttribute("tomorror", tomorror);
+        model.addAttribute("tomorror_task", tomorror_task);
         return "tasks/tasks";
     }
+
+    @PostMapping("/tasks/delete/{id}")
+    public String delete(@PathVariable("id") Long taskid){
+        taskService.deleteById(taskid);
+        return "redirect:/tasks";
+    }
+
     // 朝活の内容を入力、決定する
     @PostMapping("tasks/input")
     public String input_task(@Validated TaskForm form,BindingResult bindingResult){
@@ -66,13 +74,6 @@ public class TasksController {
     @GetMapping("tasks/comunity")
     public String comunity(){
         return "tasks/comunity";
-    }
-
-    //削除
-    @PostMapping("/delete")
-    public String delete(){
-        taskService.delete();
-        return "redirect:/tasks";
     }
 }
 

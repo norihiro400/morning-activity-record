@@ -10,7 +10,7 @@
 <section layout:fragment="content">
     <div class="container card">
         <div class="card-header">
-            <p class="fs-5 fw-bold">明日(<span th:text="${tomorror_month}"></span>月<span th:text="${tomorror_day}"></span>日)の朝活は何する???</p>
+            <p class="fs-5 fw-bold">明日(<span th:text="${tomorror}"></span>)の朝活は何する???</p>
         </div>
         <div class="card-body">
             <div>
@@ -32,12 +32,17 @@
         </div>
     </div>
     <hr>
-    <div class="container card ">
-        <p>予定された朝活はありません</p>
-        
-        <form th:action="@{/delete}" method="post">
-            <button type="submit">削除</button>
-        </form>
+    <div class="container card mb-5">
+        <div class="card-header">
+            <p class="fs-5 fw-bold">明日の朝活</p>
+        </div>
+        <p th:text="${task}"></p>
+        <div th:each="task:${tomorror_task}" th:object="${task}" class="mb-3">
+            <p th:text="*{task}"></p>
+            <form th:action="@{/tasks/delete/{id}(id=*{id})}" method="post">
+                <button type="submit" class="btn btn-danger">削除</button>
+            </form>
+        </div>
     </div>
 </section>
 </body>

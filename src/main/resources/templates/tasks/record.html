@@ -27,7 +27,7 @@
             </thead>
             <tbody>
                 <tr th:each="task:${tasklist}" th:object="${task}">
-                    <td>2025年1月29日</td>
+                    <td th:text="*{scheduledDate}"></td>
                     <td th:text="*{task}"></td>
                     <td th:text="*{label}"></td>
                     <td><a th:href="@{/tasks/{id}(id=*{id})}">詳細を見る</a></td>

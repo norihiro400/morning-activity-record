@@ -1,5 +1,9 @@
 package com.example.todo.service.tasks;
+import java.time.LocalDate;
+
 import com.example.todo.controller.tasks.TaskLabel;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -23,12 +27,15 @@ public class TaskEntity {
     private TaskLabel label;
 
     private boolean isDone;
+    @Column(name = "scheduled_date")
+    private LocalDate scheduledDate;
 
-    public TaskEntity(Long id,String task,TaskLabel label,boolean isDone){
+    public TaskEntity(Long id,String task,TaskLabel label,boolean isDone,LocalDate scheduledDate){
         this.id = id;
         this.task = task;
         this.label = label;
         this.isDone = isDone;
+        this.scheduledDate = scheduledDate;
     }
 
     public TaskEntity(){
