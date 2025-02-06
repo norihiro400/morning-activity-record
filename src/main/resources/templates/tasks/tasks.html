@@ -13,12 +13,6 @@
             <p class="fs-5 fw-bold">明日(<span th:text="${tomorror_month}"></span>月<span th:text="${tomorror_day}"></span>日)の朝活は何する???</p>
         </div>
         <div class="card-body">
-            <!-- <div class="form-group">
-                <div>
-                    <label class="form-label">ジャンルを選択</label>
-                </div>
-            </div> -->
-            <!-- <br> -->
             <div>
                 <form th:action="@{tasks/input}" method="post">
                     <div class="mb-3">
@@ -32,11 +26,18 @@
                     <div class="mb-3">
                         <input type="text" name="task" placeholder="朝活の内容を決めよう">                        
                     </div>
-                    <button type="submit" class="btn btn-secondary">決定!</button>
+                    <button type="submit" class="btn btn-primary">決定!</button>
                 </form>
             </div>
         </div>
-
+    </div>
+    <hr>
+    <div class="container card ">
+        <p>予定された朝活はありません</p>
+        
+        <form th:action="@{/delete}" method="post">
+            <button type="submit">削除</button>
+        </form>
     </div>
 </section>
 </body>

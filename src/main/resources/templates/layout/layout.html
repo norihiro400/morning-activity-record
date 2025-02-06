@@ -8,25 +8,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asakatsu+</title>
 </head>
-<body class="container">
-    <div class="text-center">
-        <h1 class="text-center">Asakatsu+</h1>
+<body class="container bg-light">
+    <div class="text-center my-4">
+        <h1 class="fw-bold text-success">Asakatsu+</h1>
     </div>
-    <nav class="navbar bg-info py-3" data-bs-theme="dark">
+
+    <!-- ナビゲーションバー -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-success-subtle rounded shadow-sm">
         <div class="container">
-            <ul class="nav justify-content-center">
-                <li class="nav-item px-3">
-                    <a class="nav-link text-white btn btn-secondary" th:href="@{/tasks}">メインページ</a>
-                </li>
-                <li class="nav-item px-3">
-                    <a class="nav-link text-white btn btn-secondary" th:href="@{/tasks/record}">朝活の記録</a>
-                </li>
-                <li class="nav-item px-3">
-                    <a class="nav-link text-white btn btn-secondary" th:href="@{/tasks/comunity}">コミュニティ</a>
-                </li>
-            </ul>
+            <a class="navbar-brand fw-bold text-success" th:href="@{/tasks}">Asakatsu+</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- 左側のメニュー -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" th:href="@{/tasks}">メインページ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" th:href="@{/tasks/record}">朝活の記録</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" th:href="@{/tasks/comunity}">コミュニティ</a>
+                    </li>
+                </ul>
+
+                <!-- 右側のメニュー -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="btn btn-outline-success me-2" th:href="@{/tasks}">プロフィール</a>
+                    </li>
+                    <li class="nav-item">
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="btn btn-warning">ログアウト</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
-<section layout:fragment="content"></section>
+
+    <section layout:fragment="content" class="mt-4"></section>
+
 </body>
 </html>
+

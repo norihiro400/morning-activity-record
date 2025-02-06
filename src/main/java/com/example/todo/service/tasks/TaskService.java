@@ -32,4 +32,7 @@ public class TaskService {
     public List<TaskEntity> findByDone(boolean isDone){
         return taskRepository.findByIsDone(isDone);
     }
+    public void delete() {
+       taskRepository.deleteAll();
+    }
 }

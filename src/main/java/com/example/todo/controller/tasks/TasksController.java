@@ -2,6 +2,8 @@ package com.example.todo.controller.tasks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +30,10 @@ public class TasksController {
     }
     // 朝活の内容を入力、決定する
     @PostMapping("tasks/input")
-    public String input_task(TaskForm form){
+    public String input_task(@Validated TaskForm form,BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "redirect:/tasks";
+        }
         var taskEntity = form.toEntity();
         taskService.createtask(taskEntity);
         return "redirect:/tasks";
@@ -50,7 +55,7 @@ public class TasksController {
         return "tasks/detail";
     };
 
-    //ジャンルでソート
+    //ソート
     @PostMapping("tasks/record/sort")
     public String sort_by_genre(SelectByForm form,Model model){
         var flag = form.isDone();
@@ -61,6 +66,13 @@ public class TasksController {
     @GetMapping("tasks/comunity")
     public String comunity(){
         return "tasks/comunity";
+    }
+
+    //削除
+    @PostMapping("/delete")
+    public String delete(){
+        taskService.delete();
+        return "redirect:/tasks";
     }
 }
 

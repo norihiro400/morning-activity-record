@@ -1,13 +1,11 @@
 package com.example.todo.controller.tasks;
-
 import com.example.todo.service.tasks.TaskEntity;
-
-import groovyjarjarantlr4.v4.runtime.misc.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public record TaskForm(
-    @NotNull
+    @NotBlank
     String task,
-
+    
     String label
 ) {
     public TaskEntity toEntity(){
