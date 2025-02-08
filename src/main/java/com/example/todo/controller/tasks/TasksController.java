@@ -1,5 +1,9 @@
 package com.example.todo.controller.tasks;
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +23,7 @@ public class TasksController {
     //メイン画面
     @GetMapping("/tasks")
     public String view(Model model){
-        var tomorror_task = taskService.findNextTask().stream().map(TaskDTO::toDTO).toList();
+        var tomorror_task = taskService.findByDate(LocalDate.now().plusDays(1)).stream().map(TaskDTO::toDTO).toList();
         if (tomorror_task.isEmpty()){
             model.addAttribute("task", "予定された朝活はありません");
         }
@@ -27,9 +31,12 @@ public class TasksController {
         String tomorror = GetDate.getTomorror();
         model.addAttribute("tomorror", tomorror);
         model.addAttribute("tomorror_task", tomorror_task);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        model.addAttribute("username", username);
         return "tasks/tasks";
     }
-
+    //指定したidのタスクを削除
     @PostMapping("/tasks/delete/{id}")
     public String delete(@PathVariable("id") Long taskid){
         taskService.deleteById(taskid);
@@ -74,6 +81,18 @@ public class TasksController {
     @GetMapping("tasks/comunity")
     public String comunity(){
         return "tasks/comunity";
+    }
+    
+    @GetMapping("/tasks/input")
+    public String input(Model model){
+        //本日の朝活があればそれを取得(entity->dto)
+        var todaytask = taskService.findByDate(LocalDate.now()).stream().map(TaskDTO::toDTO).toList();
+        if (todaytask.isEmpty()){
+            model.addAttribute("message", "進行中の朝活はありません");
+            return "tasks/input";
+        }
+        model.addAttribute("tasklist", todaytask);
+        return "tasks/input";
     }
 }
 

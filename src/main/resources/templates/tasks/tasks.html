@@ -8,6 +8,9 @@
 </head>
 <body>
 <section layout:fragment="content">
+    <div class="mb-3">
+       <p><span th:text="${username}"></span>さん、おかえりなさい！</p>
+    </div>
     <div class="container card">
         <div class="card-header">
             <p class="fs-5 fw-bold">明日(<span th:text="${tomorror}"></span>)の朝活は何する???</p>
@@ -44,6 +47,7 @@
             </form>
         </div>
     </div>
+    <p></p>
 </section>
 </body>
 </html>

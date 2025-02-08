@@ -13,7 +13,6 @@ public class TaskService {
     @Autowired
     TaskRepository taskRepository;
 
-    //完了したミッションをデータベースに保存
     @Transactional
     public void createtask(TaskEntity entity){
         taskRepository.save(entity);
@@ -31,9 +30,9 @@ public class TaskService {
     public List<TaskEntity> findByDone(boolean isDone){
         return taskRepository.findByIsDone(isDone);
     }
-    //次の日の予定された朝活を取得
-    public List<TaskEntity> findNextTask(){
-        return taskRepository.findByScheduledDate(LocalDate.now().plusDays(1));
+    //指定した日づけの朝活を取得
+    public List<TaskEntity> findByDate(LocalDate localDate){
+        return taskRepository.findByScheduledDate(localDate);
     }
     //指定したidのタスクを削除
     public void deleteById(Long taskid){
