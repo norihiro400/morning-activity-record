@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.example.todo.controller.getdate.GetDate;
+import com.example.todo.service.login.UserEntity;
+import com.example.todo.service.login.UserService;
 import com.example.todo.service.tasks.TaskService;
 
 @Controller
@@ -19,11 +21,17 @@ public class TasksController {
 
     @Autowired
     TaskService taskService;
+    @Autowired
+    UserService userService;
 
     //メイン画面
     @GetMapping("/tasks")
     public String view(Model model){
-        var tomorror_task = taskService.findByDate(LocalDate.now().plusDays(1)).stream().map(TaskDTO::toDTO).toList();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        UserEntity user = userService.findByUsername(username);
+
+        var tomorror_task = taskService.findByDate(LocalDate.now().plusDays(1),user.getId()).stream().map(TaskDTO::toDTO).toList();
         if (tomorror_task.isEmpty()){
             model.addAttribute("task", "予定された朝活はありません");
         }
@@ -31,8 +39,6 @@ public class TasksController {
         String tomorror = GetDate.getTomorror();
         model.addAttribute("tomorror", tomorror);
         model.addAttribute("tomorror_task", tomorror_task);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
         model.addAttribute("username", username);
         return "tasks/tasks";
     }
@@ -49,15 +55,22 @@ public class TasksController {
         if (bindingResult.hasErrors()){
             return "redirect:/tasks";
         }
-        var taskEntity = form.toEntity();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        UserEntity user = userService.findByUsername(username);
+        var taskEntity = form.toEntity(user);
         taskService.createtask(taskEntity);
         return "redirect:/tasks";
     }
 
     // 完了または未達成のミッションの記録の表示
     @GetMapping("tasks/record")
-    public String record(Model model,boolean flag){
-        var taskList = taskService.findByDone(flag).stream().map(TaskDTO::toDTO).toList();
+    public String record(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        UserEntity user = userService.findByUsername(username);
+        var taskList = taskService.findByuserId(user.getId());
+        // var taskList = taskService.findByDone(flag).stream().map(TaskDTO::toDTO).toList();
         model.addAttribute("tasklist",taskList);
         return "tasks/record";
     }  
@@ -70,12 +83,12 @@ public class TasksController {
         return "tasks/detail";
     };
 
-    //ソート
-    @PostMapping("tasks/record/sort")
-    public String sort_by_genre(SelectByForm form,Model model){
-        var flag = form.isDone();
-        return record(model, flag);
-    }
+    // //ソート
+    // @PostMapping("tasks/record/sort")
+    // public String sort_by_genre(SelectByForm form,Model model){
+    //     var flag = form.isDone();
+    //     return record(model, flag);
+    // }
 
     //朝活コミュニティ(悩み相談とか)
     @GetMapping("tasks/comunity")
@@ -86,7 +99,10 @@ public class TasksController {
     @GetMapping("/tasks/input")
     public String input(Model model){
         //本日の朝活があればそれを取得(entity->dto)
-        var todaytask = taskService.findByDate(LocalDate.now()).stream().map(TaskDTO::toDTO).toList();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        UserEntity user = userService.findByUsername(username);
+        var todaytask = taskService.findByDate(LocalDate.now(),user.getId()).stream().map(TaskDTO::toDTO).toList();
         if (todaytask.isEmpty()){
             model.addAttribute("message", "進行中の朝活はありません");
             return "tasks/input";

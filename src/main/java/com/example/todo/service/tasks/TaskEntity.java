@@ -29,13 +29,16 @@ public class TaskEntity {
     private boolean isDone;
     @Column(name = "scheduled_date")
     private LocalDate scheduledDate;
+    @Column(name = "user_id")
+    private Long userId;
 
-    public TaskEntity(Long id,String task,TaskLabel label,boolean isDone,LocalDate scheduledDate){
+    public TaskEntity(Long id,String task,TaskLabel label,boolean isDone,LocalDate scheduledDate,Long userId){
         this.id = id;
         this.task = task;
         this.label = label;
         this.isDone = isDone;
         this.scheduledDate = scheduledDate;
+        this.userId = userId;
     }
 
     public TaskEntity(){

@@ -26,13 +26,17 @@ public class TaskService {
     public Optional<TaskEntity> findById(Long taskid){
         return taskRepository.findById(taskid);
     }
-    //達成済みのものを取得
+    //flagによって取得
     public List<TaskEntity> findByDone(boolean isDone){
         return taskRepository.findByIsDone(isDone);
     }
-    //指定した日づけの朝活を取得
-    public List<TaskEntity> findByDate(LocalDate localDate){
-        return taskRepository.findByScheduledDate(localDate);
+    //useridでとってくる
+    public List<TaskEntity> findByuserId(Long id){
+        return taskRepository.findByUserId(id);
+    }
+    //指定した日づけの朝活を取得(自分のユーザーIDのもののみ取得)
+    public List<TaskEntity> findByDate(LocalDate localDate,Long userId){
+        return taskRepository.findByScheduledDateAndUserId(localDate,userId);
     }
     //指定したidのタスクを削除
     public void deleteById(Long taskid){
