@@ -37,9 +37,9 @@ public class TaskService {
     public List<TaskEntity> findByuserId(Long id){
         return taskRepository.findByUserIdAndTrue(id);
     }
-    //指定した日づけの朝活を取得(自分のユーザーIDのもののみ取得)
+    //指定した日づけの朝活を取得(自分のユーザーIDのもののみ取得)かつisDoneがfalse(未達成)のもの
     public List<TaskEntity> findByDate(LocalDate localDate,Long userId){
-        return taskRepository.findByScheduledDateAndUserId(localDate,userId);
+        return taskRepository.findByScheduledDateAndUserIdAndIsDone(localDate,userId);
     }
     //指定したidのタスクを削除
     public void deleteById(Long taskid){
@@ -50,4 +50,8 @@ public class TaskService {
         taskDetailRepository.save(entity);
     }
 
+    // 完了したタスクのステータスをtrueに
+    public void setidDone(Long taskId){
+        taskRepository.setisDoneById(taskId);
+    }
 }

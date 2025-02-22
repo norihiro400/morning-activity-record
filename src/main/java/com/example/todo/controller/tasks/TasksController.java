@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.todo.controller.getdate.GetDate;
 import com.example.todo.service.login.UserEntity;
 import com.example.todo.service.login.UserService;
-import com.example.todo.service.tasks.TaskDetailEntity;
 import com.example.todo.service.tasks.TaskService;
 
 @Controller
@@ -115,6 +114,7 @@ public class TasksController {
     public String inputdetail(@PathVariable("taskId") Long id, InputForm form){
         var entity = form.taskDetailEntity(id);
         taskService.saveDetail(entity);
+        taskService.setidDone(id);
         return "redirect:/tasks/input";
     }
 }
