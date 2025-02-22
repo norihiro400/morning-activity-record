@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.todo.controller.getdate.GetDate;
 import com.example.todo.service.login.UserEntity;
 import com.example.todo.service.login.UserService;
+import com.example.todo.service.tasks.TaskDetailEntity;
 import com.example.todo.service.tasks.TaskService;
 
 @Controller
@@ -26,12 +27,17 @@ public class TasksController {
 
     //メイン画面
     @GetMapping("/tasks")
-    public String view(Model model){
+    public String view(Model model, TaskForm form){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         UserEntity user = userService.findByUsername(username);
-
         var tomorror_task = taskService.findByDate(LocalDate.now().plusDays(1),user.getId()).stream().map(TaskDTO::toDTO).toList();
+
+        if (form == null){
+            form = new TaskForm(null, null);
+        }
+        model.addAttribute("taskForm",form);
+
         if (tomorror_task.isEmpty()){
             model.addAttribute("task", "予定された朝活はありません");
         }
@@ -51,9 +57,9 @@ public class TasksController {
 
     // 朝活の内容を入力、決定する
     @PostMapping("tasks/input")
-    public String input_task(@Validated TaskForm form,BindingResult bindingResult){
+    public String input_task(@Validated TaskForm form,BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()){
-            return "redirect:/tasks";
+            return view(model,form);
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -70,7 +76,6 @@ public class TasksController {
         String username = authentication.getName();
         UserEntity user = userService.findByUsername(username);
         var taskList = taskService.findByuserId(user.getId());
-        // var taskList = taskService.findByDone(flag).stream().map(TaskDTO::toDTO).toList();
         model.addAttribute("tasklist",taskList);
         return "tasks/record";
     }  
@@ -83,19 +88,12 @@ public class TasksController {
         return "tasks/detail";
     };
 
-    // //ソート
-    // @PostMapping("tasks/record/sort")
-    // public String sort_by_genre(SelectByForm form,Model model){
-    //     var flag = form.isDone();
-    //     return record(model, flag);
-    // }
-
     //朝活コミュニティ(悩み相談とか)
     @GetMapping("tasks/comunity")
     public String comunity(){
         return "tasks/comunity";
     }
-    
+    //進行中のタスクを表示
     @GetMapping("/tasks/input")
     public String input(Model model){
         //本日の朝活があればそれを取得(entity->dto)
@@ -106,9 +104,18 @@ public class TasksController {
         if (todaytask.isEmpty()){
             model.addAttribute("message", "進行中の朝活はありません");
             return "tasks/input";
+        }else{      
+            model.addAttribute("tasklist", todaytask);
+            return "tasks/input";
         }
-        model.addAttribute("tasklist", todaytask);
-        return "tasks/input";
+
+    }
+
+    @PostMapping("tasks/detail/{taskId}")
+    public String inputdetail(@PathVariable("taskId") Long id, InputForm form){
+        var entity = form.taskDetailEntity(id);
+        taskService.saveDetail(entity);
+        return "redirect:/tasks/input";
     }
 }
 

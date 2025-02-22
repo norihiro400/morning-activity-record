@@ -4,14 +4,17 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.todo.repository.TaskRepository;
 
+import com.example.todo.repository.TaskDetailRepository;
+import com.example.todo.repository.TaskRepository;
 import jakarta.transaction.Transactional;
 
 @Service
 public class TaskService {
     @Autowired
     TaskRepository taskRepository;
+    @Autowired 
+    TaskDetailRepository taskDetailRepository;
 
     @Transactional
     public void createtask(TaskEntity entity){
@@ -30,9 +33,9 @@ public class TaskService {
     public List<TaskEntity> findByDone(boolean isDone){
         return taskRepository.findByIsDone(isDone);
     }
-    //useridでとってくる
+    //useridでとってくるかつ達成済み
     public List<TaskEntity> findByuserId(Long id){
-        return taskRepository.findByUserId(id);
+        return taskRepository.findByUserIdAndTrue(id);
     }
     //指定した日づけの朝活を取得(自分のユーザーIDのもののみ取得)
     public List<TaskEntity> findByDate(LocalDate localDate,Long userId){
@@ -42,4 +45,9 @@ public class TaskService {
     public void deleteById(Long taskid){
         taskRepository.deleteById(taskid);
     }
+    //タスクの詳細を保存
+    public void saveDetail(TaskDetailEntity entity){
+        taskDetailRepository.save(entity);
+    }
+
 }

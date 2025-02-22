@@ -17,17 +17,18 @@
         </div>
         <div class="card-body">
             <div>
-                <form th:action="@{tasks/input}" method="post">
+                <form th:action="@{tasks/input}" method="post" th:object="${taskForm}">
                     <div class="mb-3">
                         <label for="tasklabel">ジャンルを選択</label>
-                        <select name="label" id="tasklabel">
+                        <select id="tasklabel" th:field="*{label}">
                             <option value="勉強系">勉強系</option>
                             <option value="日常系">日常系</option>
                             <option value="運動系">運動系</option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <input type="text" name="task" placeholder="朝活の内容を決めよう">                        
+                        <input type="text" placeholder="朝活の内容を決めよう" th:field="*{task}">  
+                        <span th:errors="*{task}" class="text-danger mx-3"></span>                     
                     </div>
                     <button type="submit" class="btn btn-primary">決定!</button>
                 </form>

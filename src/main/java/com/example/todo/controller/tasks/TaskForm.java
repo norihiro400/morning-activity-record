@@ -1,13 +1,11 @@
 package com.example.todo.controller.tasks;
 import java.time.LocalDate;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import com.example.todo.service.login.UserEntity;
 import com.example.todo.service.tasks.TaskEntity;
 import jakarta.validation.constraints.NotBlank;
 
 public record TaskForm(
-    @NotBlank
+    @NotBlank(message = "内容を入力してください")
     String task,
     
     String label

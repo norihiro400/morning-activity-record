@@ -21,4 +21,6 @@ public interface TaskRepository extends JpaRepository<TaskEntity,Long> {
     @Query(value = "select * from task where scheduled_date = :date and user_id = :userId",nativeQuery = true)
     List<TaskEntity> findByScheduledDateAndUserId(@Param("date") LocalDate date,@Param("userId") Long userId);
     
+    @Query(value = "select * from task where user_id = :userId and is_Done = true",nativeQuery = true)
+    List<TaskEntity> findByUserIdAndTrue(@Param("userId") Long userId);
 }

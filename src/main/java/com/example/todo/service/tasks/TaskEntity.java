@@ -1,8 +1,6 @@
 package com.example.todo.service.tasks;
 import java.time.LocalDate;
-
 import com.example.todo.controller.tasks.TaskLabel;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
