@@ -54,4 +54,8 @@ public class TaskService {
     public void setidDone(Long taskId){
         taskRepository.setisDoneById(taskId);
     }
+    //指定したtaskIdのタスクの詳細を取得
+    public TaskDetailEntity findDetailById(Long id){
+        return taskDetailRepository.findByTaskId(id);
+    }
 }

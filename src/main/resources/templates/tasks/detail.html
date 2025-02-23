@@ -4,9 +4,32 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 <section layout:fragment="content">
-    <div th:object="${task}">
-    <p th:text="*{id}"></p>
-    <p th:text="*{task}"></p>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card mb-4" th:object="${task}">
+
+                <div class="card-body">
+                    <h5 class="card-title mb-3">朝活内容:</h5>
+                    <p class="card-text fs-4" th:text="*{task}"></p>
+
+                    
+                    <div th:object="${detail}">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" for="fileInput">記録となる写真</label>
+                            <p id="fileInput" th:text="*{imagepath}"></p>
+                        </div>
+    
+                      
+                        <div class="mb-4">
+                            <label class="form-label fw-bold" for="detailInput">詳細</label>
+                            <p id="detailInput" th:text="*{detail}"></p>
+                        </div>
+                    </div>
+
+                
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 </html>

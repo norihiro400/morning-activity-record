@@ -24,6 +24,7 @@ public class TasksController {
     @Autowired
     UserService userService;
 
+
     //メイン画面
     @GetMapping("/tasks")
     public String view(Model model, TaskForm form){
@@ -74,7 +75,7 @@ public class TasksController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         UserEntity user = userService.findByUsername(username);
-        var taskList = taskService.findByuserId(user.getId());
+        var taskList = taskService.findByuserId(user.getId()).stream().map(TaskDTO::toDTO).toList();
         model.addAttribute("tasklist",taskList);
         return "tasks/record";
     }  
@@ -82,8 +83,10 @@ public class TasksController {
     // 詳細画面
     @GetMapping("tasks/{id}")
     public String detail(@PathVariable("id") Long taskid, Model model){
-        var task = taskService.findById(taskid).orElseThrow(() -> new RuntimeException("タスクが見つかりません"));
+        var task = TaskDTO.toDTO(taskService.findById(taskid).orElseThrow(() -> new RuntimeException("タスクが見つかりません")));
+        var detail = TaskDetailDTO.toDTO(taskService.findDetailById(taskid));
         model.addAttribute("task",task);
+        model.addAttribute("detail", detail);
         return "tasks/detail";
     };
 
@@ -109,7 +112,7 @@ public class TasksController {
         }
 
     }
-
+    //タスクの詳細を記録
     @PostMapping("tasks/detail/{taskId}")
     public String inputdetail(@PathVariable("taskId") Long id, InputForm form){
         var entity = form.taskDetailEntity(id);
