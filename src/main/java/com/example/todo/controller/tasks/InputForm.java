@@ -6,9 +6,9 @@ import com.example.todo.service.tasks.TaskDetailEntity;
 
 public record InputForm(
     String detail,
-    MultipartFile image_path
+    MultipartFile imagepath
 ) {
-    public TaskDetailEntity taskDetailEntity(Long taskId){
-        return new TaskDetailEntity(null,taskId,"/image/",detail());
+    public TaskDetailEntity toDetailEntity(Long taskId,String path){
+        return new TaskDetailEntity(null,taskId,path,detail());
     }
 }

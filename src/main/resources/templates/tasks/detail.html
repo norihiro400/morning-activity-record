@@ -16,7 +16,7 @@
                     <div th:object="${detail}">
                         <div class="mb-3">
                             <label class="form-label fw-bold" for="fileInput">記録となる写真</label>
-                            <p id="fileInput" th:text="*{imagepath}"></p>
+                            <img th:src="@{${detail.imagepath}}" alt="記録画像" class="img-fluid" style="max-width: 100%; height: auto;">
                         </div>
     
                       

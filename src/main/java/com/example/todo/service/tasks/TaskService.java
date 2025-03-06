@@ -1,9 +1,14 @@
 package com.example.todo.service.tasks;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.todo.repository.TaskDetailRepository;
 import com.example.todo.repository.TaskRepository;
@@ -11,6 +16,7 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class TaskService {
+    private static final String UPLOAD_DIR = "images/";
     @Autowired
     TaskRepository taskRepository;
     @Autowired 
@@ -57,5 +63,17 @@ public class TaskService {
     //指定したtaskIdのタスクの詳細を取得
     public TaskDetailEntity findDetailById(Long id){
         return taskDetailRepository.findByTaskId(id);
+    }
+    //画像のアップロード処理
+    public String saveImage(MultipartFile image) throws IOException{
+        if (image.isEmpty()){
+            return null;
+        }
+        String filename = System.currentTimeMillis() + '_' + image.getOriginalFilename();
+        Path filepath = Paths.get(UPLOAD_DIR + filename);
+        System.out.println(filename); 
+        System.out.println(filepath); 
+        Files.copy(image.getInputStream(),filepath);
+        return "/images/" + filename;
     }
 }

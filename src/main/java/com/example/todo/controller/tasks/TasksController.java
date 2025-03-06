@@ -1,6 +1,6 @@
 package com.example.todo.controller.tasks;
+import java.io.IOException;
 import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +11,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.example.todo.controller.getdate.GetDate;
 import com.example.todo.service.login.UserEntity;
 import com.example.todo.service.login.UserService;
@@ -87,6 +89,7 @@ public class TasksController {
         var detail = TaskDetailDTO.toDTO(taskService.findDetailById(taskid));
         model.addAttribute("task",task);
         model.addAttribute("detail", detail);
+        System.out.println(detail.imagepath());
         return "tasks/detail";
     };
 
@@ -115,7 +118,18 @@ public class TasksController {
     //タスクの詳細を記録
     @PostMapping("tasks/detail/{taskId}")
     public String inputdetail(@PathVariable("taskId") Long id, InputForm form){
-        var entity = form.taskDetailEntity(id);
+        // デフォルトパス
+        String imagePath = "/images/default.png";
+        try{
+            MultipartFile imagFile = form.imagepath();
+            if (imagFile != null && !imagFile.isEmpty()){
+                imagePath = taskService.saveImage(imagFile);
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        
+        var entity = form.toDetailEntity(id,imagePath);
         taskService.saveDetail(entity);
         taskService.setidDone(id);
         return "redirect:/tasks/input";
