@@ -76,4 +76,12 @@ public class TaskService {
         Files.copy(image.getInputStream(),filepath);
         return "/images/" + filename;
     }
+
+    //今日のみんなの朝活を取得
+    public List<TaskEntity> findTodayTask(LocalDate localDate){
+        return taskRepository.findByScheduledDate(localDate);
+    }
+
 }
+
+
