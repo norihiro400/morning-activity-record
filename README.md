@@ -6,6 +6,13 @@
 
 自身の朝活を予定、記録することのできるサービス
 
+## 動作確認
+以下のコマンドを実行
+
+`docker compose build && docker compose up `
+
+
+
 ## 技術スタック
 * フロントエンド：HTML,CSS,Thymeleaf
 * バックエンド：Java,SpringBoot
