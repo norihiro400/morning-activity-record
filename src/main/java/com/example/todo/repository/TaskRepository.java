@@ -32,4 +32,8 @@ public interface TaskRepository extends JpaRepository<TaskEntity,Long> {
     @Transactional
     @Query("update TaskEntity t set t.isDone = true where t.id = :taskId")
     void setisDoneById(@Param("taskId") Long taskId);
+
+    //今日のみんなの朝活を取得
+    @Query(value = "select * from task where scheduled_date = :date and is_Done = false",nativeQuery = true)
+    List<TaskEntity> findByScheduledDateAndIsDone(@Param("date") LocalDate date);
 }

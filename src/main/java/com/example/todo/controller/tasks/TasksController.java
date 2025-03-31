@@ -93,11 +93,6 @@ public class TasksController {
         return "tasks/detail";
     };
 
-    //朝活コミュニティ(悩み相談とか)
-    @GetMapping("tasks/comunity")
-    public String comunity(){
-        return "tasks/comunity";
-    }
     //進行中のタスクを表示
     @GetMapping("/tasks/input")
     public String input(Model model){
