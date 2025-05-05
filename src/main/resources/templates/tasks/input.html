@@ -4,41 +4,43 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 <section layout:fragment="content">
-<div class="container mt-5">
+<div class="container py-5">
     <!-- タイトル -->
-    <p class="text-center mb-5 fs-2 fw-bold">進行中の朝活</p>
-    <h2 class="text-center mb-4" th:text="${message}"></h2>
+    <p class="text-center mb-5 fs-2 fw-bold text-primary">進行中の朝活</p>
+    <h2 class="text-center mb-5 text-secondary" th:text="${message}"></h2>
 
     <!-- タスク一覧 -->
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card mb-4" th:each="task:${tasklist}" th:object="${task}">
+            <div class="card shadow rounded-4 mb-5" th:each="task:${tasklist}" th:object="${task}">
+                <div class="card-body p-5">
 
-                <div class="card-body">
-                    <h5 class="card-title mb-3">朝活内容:</h5>
-                    <p class="card-text fs-4" th:text="*{task}"></p>
+                    <!-- 朝活タイトル -->
+                    <h5 class="card-title mb-4 text-center text-success fs-3 fw-bold">朝活内容:</h5>
+                    <p class="card-text fs-4 text-center mb-5" th:text="*{task}"></p>
 
                     <!-- フォーム部分 -->
                     <form th:action="@{/tasks/detail/{taskId}(taskId = *{id})}" method="post" enctype="multipart/form-data">
                         <!-- ファイルアップロード -->
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label class="form-label fw-bold" for="fileInput">記録となる写真</label>
-                            <input class="form-control" type="file" id="fileInput" name="imagepath">
+                            <input class="form-control rounded-pill" type="file" id="fileInput" name="imagepath">
                         </div>
 
                         <!-- 詳細入力欄 -->
                         <div class="mb-4">
                             <label class="form-label fw-bold" for="detailInput">詳細を記録しよう</label>
-                            <textarea id="detailInput" class="form-control" rows="6" placeholder="ここに詳細を入力してください" name="detail"></textarea>
+                            <textarea id="detailInput" class="form-control rounded-4" rows="6" placeholder="ここに詳細を入力してください" name="detail"></textarea>
                         </div>
 
                         <!-- 送信ボタン -->
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary btn-lg w-50">
+                            <button type="submit" class="btn btn-primary btn-lg w-50 rounded-pill shadow-sm" style="transition: 0.3s;">
                                 完了
                             </button>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -46,3 +48,4 @@
 </div>
 </section>
 </html>
+

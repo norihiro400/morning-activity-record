@@ -10,6 +10,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/myapp
       SPRING_DATASOURCE_USERNAME: nori
       SPRING_DATASOURCE_PASSWORD: nori
+    volumes:
+      - .:/app
     networks:
       - app-network
 

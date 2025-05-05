@@ -7,50 +7,67 @@
     <title>Asakatsu+</title>
 </head>
 <body>
-<section layout:fragment="content">
-    <div class="mb-3">
-       <p class="fw-bold"><span th:text="${username}" class="fw-bold"></span>さん、おかえりなさい！</p>
+
+<section layout:fragment="content" class="py-5 fade-in">
+<div class="container">
+
+    <!-- ユーザーへの挨拶 -->
+    <div class="mb-5 text-center">
+        <h2 class="fw-bold">
+            <span th:text="${username}"></span>さん、おかえりなさい！
+        </h2>
     </div>
-    <div class="container card">
-        <div class="card-header">
-            <p class="fs-5 fw-bold">明日(<span th:text="${tomorror}"></span>)の朝活は何する???</p>
+
+    <!-- 明日の朝活入力フォーム -->
+    <div class="card shadow rounded-4 mb-5">
+        <div class="card-header bg-primary text-white rounded-top-4">
+            <h4 class="fw-bold mb-0">明日 (<span th:text="${tomorror}"></span>) の朝活は何する？</h4>
         </div>
-        <div class="card-body">
-            <div>
-                <form th:action="@{tasks/input}" method="post" th:object="${taskForm}">
-                    <div class="mb-3">
-                        <label for="tasklabel">ジャンルを選択</label>
-                        <select id="tasklabel" th:field="*{label}">
-                            <option value="勉強系">勉強系</option>
-                            <option value="日常系">日常系</option>
-                            <option value="運動系">運動系</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <input type="text" placeholder="朝活の内容を決めよう" th:field="*{task}">  
-                        <span th:errors="*{task}" class="text-danger mx-3"></span>                     
-                    </div>
-                    <button type="submit" class="btn btn-primary">決定!</button>
+        <div class="card-body p-4">
+            <form th:action="@{/tasks/input}" method="post" th:object="${taskForm}">
+                <div class="mb-3">
+                    <label for="tasklabel" class="form-label fw-bold">ジャンルを選択</label>
+                    <select id="tasklabel" th:field="*{label}" class="form-select rounded-pill" required>
+                        <option value="勉強系">勉強系</option>
+                        <option value="日常系">日常系</option>
+                        <option value="運動系">運動系</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <input type="text" th:field="*{task}" class="form-control rounded-pill" placeholder="朝活の内容を決めよう" required minlength="1" maxlength="50">
+                    <span th:errors="*{task}" class="text-danger"></span>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg rounded-pill w-50 shadow-sm">
+                        決定！
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 明日の朝活一覧 -->
+    <div class="card shadow rounded-4">
+        <div class="card-header bg-success text-white rounded-top-4">
+            <h4 class="fw-bold mb-0">明日の朝活</h4>
+        </div>
+        <div class="card-body p-4">
+            <div th:if="${#lists.isEmpty(tomorror_task)}" class="text-center text-muted">
+                明日の朝活はまだ登録されていません。
+            </div>
+            <div th:each="task : ${tomorror_task}" th:object="${task}" class="mb-4 d-flex justify-content-between align-items-center border-bottom pb-3 fade-in">
+                <p th:text="*{task}" class="mb-0 fs-5"></p>
+                <form th:action="@{/tasks/delete/{id}(id=*{id})}" method="post">
+                    <button type="submit" class="btn btn-outline-danger rounded-pill shadow-sm">
+                        <i class="bi bi-trash"></i> 削除
+                    </button>
                 </form>
             </div>
         </div>
     </div>
-    <hr>
-    <div class="container card mb-5">
-        <div class="card-header">
-            <p class="fs-5 fw-bold">明日の朝活</p>
-        </div>
-        <p th:text="${task}"></p>
-        <div th:each="task:${tomorror_task}" th:object="${task}" class="mb-3">
-            <p th:text="*{task}"></p>
-            <form th:action="@{/tasks/delete/{id}(id=*{id})}" method="post">
-                <button type="submit" class="btn btn-danger">削除</button>
-            </form>
-        </div>
-    </div>
-    <p></p>
+
+</div>
 </section>
+
 </body>
 </html>
-
-

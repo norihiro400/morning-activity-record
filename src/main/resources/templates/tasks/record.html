@@ -3,38 +3,77 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
-<section layout:fragment="content">
-    <h1>記録</h1>
-    <!-- <div>
-        <form th:action="@{/tasks/record/sort}" method="post">
-            <select name="isDone" id="taskstatus">
-                <option value="true">達成済み</option>
-                <option value="false">未達成</option>
-            </select>
-            <button type="submit">選択</button>
-        </form>
-    </div> -->
-    <br>
-    <div>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>日付</th>
-                    <th>タイトル</th>
-                    <th>ジャンル</th>
-                    <th>詳細</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="task:${tasklist}" th:object="${task}">
-                    <td th:text="*{scheduledDate}"></td>
-                    <td th:text="*{task}"></td>
-                    <td th:text="*{label}"></td>
-                    <td><a th:href="@{/tasks/{id}(id=*{id})}">詳細を見る</a></td>
-                </tr>
-            </tbody>
-        </table>
+
+<head>
+    <title>記録一覧</title>
+    <style>
+        .record-card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+        }
+
+        .record-title {
+            font-weight: bold;
+            color: #20c997;
+        }
+
+        .record-table th {
+            background-color: #e8f5e9;
+        }
+
+        .no-records {
+            color: #888;
+            font-size: 1.1rem;
+            padding: 2rem 0;
+        }
+    </style>
+</head>
+
+<section layout:fragment="content" class="py-5 fade-in">
+    <div class="container">
+        <!-- タイトル -->
+        <div class="text-center mb-4">
+            <h2 class="record-title">📘 朝活の記録一覧</h2>
+            <p class="text-muted">これまで取り組んだ朝活を振り返ろう！</p>
+        </div>
+
+        <!-- テーブル -->
+        <div class="record-card">
+            <table class="table table-striped record-table align-middle">
+                <thead>
+                    <tr>
+                        <th>日付</th>
+                        <th>タイトル</th>
+                        <th>ジャンル</th>
+                        <th>詳細</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 空のとき -->
+                    <tr th:if="${#lists.isEmpty(tasklist)}">
+                        <td colspan="4" class="text-center no-records">
+                            🌅 記録はまだありません。<br>
+                            明日から新しい朝活を始めてみましょう！
+                        </td>
+                    </tr>
+
+                    <!-- レコード表示 -->
+                    <tr th:each="task : ${tasklist}" th:object="${task}" th:if="${not #lists.isEmpty(tasklist)}">
+                        <td th:text="*{scheduledDate}"></td>
+                        <td th:text="*{task}"></td>
+                        <td th:text="*{label}"></td>
+                        <td>
+                            <a class="btn btn-outline-success btn-sm rounded-pill" th:href="@{/tasks/{id}(id=*{id})}">
+                                詳細を見る
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    
 </section>
+
 </html>

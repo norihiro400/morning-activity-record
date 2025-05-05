@@ -28,3 +28,11 @@ CREATE TABLE IF NOT EXISTS task_detail (
 );
 
 
+-- 悩み相談テーブル
+CREATE TABLE IF NOT EXISTS comunity (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL
+);
+
+

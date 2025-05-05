@@ -3,37 +3,56 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
-<section layout:fragment="content">
-<h3 class=" text-center">朝活に関する悩みなどを共有できます！</h3>
 
+<section layout:fragment="content" class="py-5 fade-in">
+    <div class="container">
 
-<div class="border border-primary p-3 rounded">
-      <form th:action="@{/comunity}" method="post">
-            <div class=" form-group">
-                  <h3>投稿する</h3>
-                  <label for="title">タイトル</label>
-                  <input type="text" class="form-control" id="title" name="title" placeholder="タイトルを入力してください">
-                  <label for="content">質問内容</label>
-                  <textarea class="form-control" name="content" id="content" placeholder="質問を入力してください"></textarea>
+        <!-- ヘッダー -->
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-success">🌞 朝活掲示板</h2>
+            <p class="text-muted">朝活に関する悩みや質問を気軽に投稿して共有しよう！</p>
+        </div>
+
+        <!-- 投稿フォーム -->
+        <div class="card shadow-sm mb-5">
+            <div class="card-header bg-primary text-white rounded-top">
+                <h5 class="mb-0">📝 投稿する</h5>
             </div>
-      </form>
-</div>
-
-<div class="mt-3">
-      <h3>投稿一覧</h3>
-      <p></p>
-      <div class="border boder-gray p-3 rounded">
-            <div class="card">
-                  <div class="card-header">
-                        <h5>朝起きれない</h5>
-                  </div>
-                  <div class="card-body">
-                        <a th:href="@{/comunity/{id}(id=1)}">質問を見る</a>
-                  </div>
+            <div class="card-body">
+                <form th:action="@{/comunity/post}" method="post">
+                    <div class="mb-3">
+                        <label for="title" class="form-label fw-bold">タイトル</label>
+                        <input type="text" class="form-control rounded-pill" id="title" name="title" placeholder="タイトルを入力してください">
+                    </div>
+                    <div class="mb-3">
+                        <label for="content" class="form-label fw-bold">質問内容</label>
+                        <textarea class="form-control rounded" name="content" id="content" rows="4" placeholder="質問を入力してください"></textarea>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-success rounded-pill px-4">投稿する</button>
+                    </div>
+                </form>
             </div>
-      </div>
-</div>
+        </div>
 
+        <!-- 投稿一覧 -->
+        <h4 class="mb-3 fw-bold text-success">🗂️ 投稿一覧</h4>
+        <div class="d-grid gap-4">
 
+            <!-- 投稿カード（繰り返し用のテンプレ） -->
+            <div class="card shadow-sm" th:each="question : ${questions}" th:object="${question}" th:if="${not #lists.isEmpty(questions)}">
+                <div class="card-body">
+                    <h5 class="card-title text-primary fw-bold" th:text="*{title}"></h5>
+                    <p class="card-text text-muted" th:text="*{content}"></p>
+                    <a th:href="@{/comunity/{id}(id=1)}" class="btn btn-outline-primary rounded-pill btn-sm">質問を見る</a>
+                </div>
+            </div>
+
+            <!-- ↑ここを th:each="post : ${postList}" などでループできます -->
+
+        </div>
+
+    </div>
 </section>
+
 </html>
