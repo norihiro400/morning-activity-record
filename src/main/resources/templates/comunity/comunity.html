@@ -22,11 +22,11 @@
                 <form th:action="@{/comunity/post}" method="post">
                     <div class="mb-3">
                         <label for="title" class="form-label fw-bold">タイトル</label>
-                        <input type="text" class="form-control rounded-pill" id="title" name="title" placeholder="タイトルを入力してください">
+                        <input type="text" class="form-control rounded-pill" id="title" name="title" placeholder="タイトルを入力してください" required maxlength="30">
                     </div>
                     <div class="mb-3">
                         <label for="content" class="form-label fw-bold">質問内容</label>
-                        <textarea class="form-control rounded" name="content" id="content" rows="4" placeholder="質問を入力してください"></textarea>
+                        <textarea class="form-control rounded" name="content" id="content" rows="4" placeholder="質問を入力してください" required></textarea>
                     </div>
                     <div class="text-end">
                         <button type="submit" class="btn btn-success rounded-pill px-4">投稿する</button>
@@ -43,13 +43,9 @@
             <div class="card shadow-sm" th:each="question : ${questions}" th:object="${question}" th:if="${not #lists.isEmpty(questions)}">
                 <div class="card-body">
                     <h5 class="card-title text-primary fw-bold" th:text="*{title}"></h5>
-                    <p class="card-text text-muted" th:text="*{content}"></p>
-                    <a th:href="@{/comunity/{id}(id=1)}" class="btn btn-outline-primary rounded-pill btn-sm">質問を見る</a>
+                    <a th:href="@{/comunity/{id}(id=*{id})}" class="btn btn-outline-primary rounded-pill btn-sm">質問を見る</a>
                 </div>
             </div>
-
-            <!-- ↑ここを th:each="post : ${postList}" などでループできます -->
-
         </div>
 
     </div>

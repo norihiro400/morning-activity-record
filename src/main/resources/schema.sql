@@ -35,4 +35,11 @@ CREATE TABLE IF NOT EXISTS comunity (
     content TEXT NOT NULL
 );
 
+-- 回答テーブル
+CREATE TABLE IF NOT EXISTS answer (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    content TEXT NOT NULL,
+    question_id BIGINT NOT NULL,
+    FOREIGN KEY (question_id) REFERENCES comunity(id)
+);
 
