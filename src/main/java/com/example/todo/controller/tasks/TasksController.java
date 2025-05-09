@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.todo.controller.getdate.GetDate;
@@ -19,6 +20,7 @@ import com.example.todo.service.login.UserService;
 import com.example.todo.service.tasks.TaskService;
 
 @Controller
+@RequestMapping("/tasks")
 public class TasksController {
 
     @Autowired
@@ -28,7 +30,7 @@ public class TasksController {
 
 
     //メイン画面
-    @GetMapping("/tasks")
+    @GetMapping("")
     public String view(Model model, TaskForm form){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -51,14 +53,14 @@ public class TasksController {
         return "tasks/tasks";
     }
     //指定したidのタスクを削除
-    @PostMapping("/tasks/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long taskid){
         taskService.deleteById(taskid);
         return "redirect:/tasks";
     }
 
     // 朝活の内容を入力、決定する
-    @PostMapping("tasks/input")
+    @PostMapping("/input")
     public String input_task(@Validated TaskForm form,BindingResult bindingResult, Model model){
         if (bindingResult.hasErrors()){
             return view(model,form);
@@ -72,7 +74,7 @@ public class TasksController {
     }
 
     // 完了または未達成のミッションの記録の表示
-    @GetMapping("tasks/record")
+    @GetMapping("/record")
     public String record(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -83,7 +85,7 @@ public class TasksController {
     }  
 
     // 詳細画面
-    @GetMapping("tasks/{id}")
+    @GetMapping("/{id}")
     public String detail(@PathVariable("id") Long taskid, Model model){
         var task = TaskDTO.toDTO(taskService.findById(taskid).orElseThrow(() -> new RuntimeException("タスクが見つかりません")));
         var detail = TaskDetailDTO.toDTO(taskService.findDetailById(taskid));
@@ -94,7 +96,7 @@ public class TasksController {
     };
 
     //進行中のタスクを表示
-    @GetMapping("/tasks/input")
+    @GetMapping("/input")
     public String input(Model model){
         //本日の朝活があればそれを取得(entity->dto)
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -111,8 +113,8 @@ public class TasksController {
 
     }
     //タスクの詳細を記録
-    @PostMapping("tasks/detail/{taskId}")
-    public String inputdetail(@PathVariable("taskId") Long id, InputForm form){
+    @PostMapping("/detail/{taskId}")
+    public String inputdetail(@PathVariable("taskId") Long id, @Validated InputForm form, BindingResult bindingResult,Model model){
         // デフォルトパス
         String imagePath = "/images/default.png";
         try{
@@ -124,6 +126,9 @@ public class TasksController {
             e.printStackTrace();
         }
         
+        if (bindingResult.hasErrors()){
+            return input(model);
+        }
         var entity = form.toDetailEntity(id,imagePath);
         taskService.saveDetail(entity);
         taskService.setidDone(id);
