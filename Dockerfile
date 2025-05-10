@@ -1,5 +1,5 @@
 # Java 23 のベースイメージ（Adoptium系）
-FROM eclipse-temurin:23-jdk
+FROM eclipse-temurin:21-jdk
 
 # 作業ディレクトリ
 WORKDIR /app

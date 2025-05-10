@@ -12,25 +12,27 @@
     <!-- タスク一覧 -->
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card shadow rounded-4 mb-5" th:each="task:${tasklist}" th:object="${task}">
+            <div class="card shadow rounded-4 mb-5" th:each="task:${tasklist}">
                 <div class="card-body p-5">
 
                     <!-- 朝活タイトル -->
                     <h5 class="card-title mb-4 text-center text-success fs-3 fw-bold">朝活内容:</h5>
-                    <p class="card-text fs-4 text-center mb-5" th:text="*{task}"></p>
+                    <p class="card-text fs-4 text-center mb-5" th:text="${task.task}"></p>
 
                     <!-- フォーム部分 -->
-                    <form th:action="@{/tasks/detail/{taskId}(taskId = *{id})}" method="post" enctype="multipart/form-data">
+                    <form th:action="@{/tasks/detail/{taskId}(taskId = ${task.id})}" method="post" enctype="multipart/form-data" th:object="${inputForm}">
                         <!-- ファイルアップロード -->
                         <div class="mb-4">
-                            <label class="form-label fw-bold" for="fileInput">記録となる写真</label>
+                            <label class="form-label fw-bold" for="fileInput" th:field="*{imagepath}">記録となる写真</label>
                             <input class="form-control rounded-pill" type="file" id="fileInput" name="imagepath">
+                            <p th:errors="*{imagepath}" class=" text-danger text-danger"></p>
                         </div>
 
                         <!-- 詳細入力欄 -->
                         <div class="mb-4">
-                            <label class="form-label fw-bold" for="detailInput">詳細を記録しよう</label>
-                            <textarea id="detailInput" class="form-control rounded-4" rows="6" placeholder="ここに詳細を入力してください" name="detail"></textarea>
+                            <label class="form-label fw-bold" for="detailInput" th:field="*{detail}">詳細を記録しよう</label>
+                            <textarea id="detailInput" class="form-control rounded-4" rows="6" placeholder="ここに詳細を入力してください" name="detail" th:text="*{detail}" required></textarea>
+                            <p th:errors="*{detail}" class=" text-danger text-center"></p>
                         </div>
 
                         <!-- 送信ボタン -->

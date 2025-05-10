@@ -97,7 +97,11 @@ public class TasksController {
 
     //進行中のタスクを表示
     @GetMapping("/input")
-    public String input(Model model){
+    public String input(Model model,InputForm form){
+        if (form == null){
+            form = new InputForm(null, null);
+        }
+        model.addAttribute("inputForm", form);
         //本日の朝活があればそれを取得(entity->dto)
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -115,8 +119,11 @@ public class TasksController {
     //タスクの詳細を記録
     @PostMapping("/detail/{taskId}")
     public String inputdetail(@PathVariable("taskId") Long id, @Validated InputForm form, BindingResult bindingResult,Model model){
+        if (bindingResult.hasErrors()){
+            return input(model,form);
+        }
         // デフォルトパス
-        String imagePath = "/images/default.png";
+        String imagePath="/images/default.png";
         try{
             MultipartFile imagFile = form.imagepath();
             if (imagFile != null && !imagFile.isEmpty()){
@@ -126,9 +133,6 @@ public class TasksController {
             e.printStackTrace();
         }
         
-        if (bindingResult.hasErrors()){
-            return input(model);
-        }
         var entity = form.toDetailEntity(id,imagePath);
         taskService.saveDetail(entity);
         taskService.setidDone(id);
