@@ -2,6 +2,8 @@ package com.example.todo.controller.comunity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.example.todo.repository.AnswerRepository;
@@ -44,7 +46,10 @@ public class ComunityController {
     }
 
     @PostMapping("/post")
-    public String postMethodName(ComunityForm form) {
+    public String postMethodName(@Validated ComunityForm form,BindingResult bindingResult,Model model) {
+        if (bindingResult.hasErrors()){
+            return comunity(model);
+        }
         var entity = form.toEntity();
         //質問の保存
         comunityService.createQuestion(entity);
@@ -53,11 +58,19 @@ public class ComunityController {
 
     //質問に対する回答の投稿
     @PostMapping("/answer/{questionId}")
-    public String answer(@PathVariable("questionId") Long questionId, AnswerForm form) {
+    public String answer(@PathVariable("questionId") Long questionId, @Validated AnswerForm form,BindingResult bindingResult,Model model
+    ) {
+        if (bindingResult.hasErrors()){
+            var question = ComunityDTO.toDTO(comunityService.findById(questionId).orElseThrow());
+            var answers = comunityService.findAnswerbyId(questionId).stream().map(AnswerDTO::toDTO).toList();
+            model.addAttribute("question", question);
+            model.addAttribute("answers", answers);
+            return "comunity/detail";
+        }
         var entity = form.toEntity(questionId);
         //質問の保存
         answerRepository.save(entity);
-        return "redirect:/comunity/{questionId}";
+        return "redirect:/comunity/"+questionId;
     }
     
 }
