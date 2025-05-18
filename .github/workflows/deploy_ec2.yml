@@ -50,5 +50,7 @@ jobs:
                 pkill -f 'java -jar' || true
                 echo "Starting new app in background..."
                 tmux new-session -d -s myapp "java -jar /home/ec2-user/todo.jar --server.port=8080 > app.log 2>&1"
+                echo "tmux session started."
+                exit 0
 
 
