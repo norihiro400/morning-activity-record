@@ -1,9 +1,50 @@
 name: Deploy EC2
 
-on: [push]
+on: 
+    push:
+        branches: [ main ]
+
+env: 
+    EC2_USER: 'ec2-user'
+    EC2_HOST: 43.207.212.203
+    SRC_PATH : 'build/libs/*.jar'
+    DEST_PATH: /home/ec2-user/todo.jar
+
 
 jobs:
-  echo_hello_world:
-    runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-latest  # GitHub ActionsはLinux上で動く
     steps:
-      - run: echo "hello world!!"
+      - name: Checkout code
+        uses: actions/checkout@v2  # ソースコードをGitHubから取得
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with: 
+            java-version: '21'
+
+      - name: Grant execute permission to Gradle
+        run: chmod +x ./gradlew
+    
+      - name: Build with Gradle (skip tests)
+        run: ./gradlew build -x test
+    
+      - name: Copy jar to EC2
+        env:
+            PRIVATE_KEY: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
+        run: |
+            echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
+            scp -o StrictHostKeyChecking=no -i private_key.pem ${{ env.SRC_PATH }} ${{ env.EC2_USER }}@${{ env.EC2_HOST }}:${{ env.DEST_PATH }}
+
+      - name: SSH into EC2 and restart app
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+            host: ${{ env.EC2_HOST }}
+            username: ${{ env.EC2_USER }}
+            key: ${{ secrets.EC2_PRIVATE_KEY }}
+            script: |
+              echo "Stopping existing app (if any)..."
+              pkill -f 'java -jar' || true
+              echo "Starting new app in background..."
+              nohup java -jar ${{ env.DEST_PATH }} > app.log 2>&1 &
+
