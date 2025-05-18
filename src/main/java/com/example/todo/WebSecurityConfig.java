@@ -37,7 +37,7 @@ public class WebSecurityConfig {
 			.rememberMe((remember) -> remember
 				.key("aVeerySecurekey")
 				.rememberMeParameter("remember-me")
-				.tokenValiditySeconds(600)
+				.tokenValiditySeconds(1800)
 				.userDetailsService(userService)
 			);
 			
