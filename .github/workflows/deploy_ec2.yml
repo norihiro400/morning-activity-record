@@ -44,6 +44,8 @@ jobs:
           username: ${{ env.EC2_USER }}
           key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
           script: |
+                echo "Installing tmux if not present..."
+                sudo dnf install -y tmux || true
                 echo "Stopping existing app (if any)..."
                 pkill -f 'java -jar' || true
                 echo "Starting new app in background..."
