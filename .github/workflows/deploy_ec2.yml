@@ -1,51 +1,50 @@
 name: Deploy EC2
 
-on: 
-    push:
-        branches: [ main ]
+on:
+  push:
+    branches: [ main ]
 
-env: 
-    EC2_USER: 'ec2-user'
-    EC2_HOST: 43.207.212.203
-    SRC_PATH : 'build/libs/*.jar'
-    DEST_PATH: /home/ec2-user/todo.jar
-
+env:
+  EC2_USER: 'ec2-user'
+  EC2_HOST: 43.207.212.203
+  DEST_JAR_NAME: 'todo.jar'
+  DEST_PATH: '/home/ec2-user'
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest  # GitHub ActionsはLinux上で動く
+    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2  # ソースコードをGitHubから取得
+        uses: actions/checkout@v2
 
       - name: Set up JDK
         uses: actions/setup-java@v2
-        with: 
-            java-version: '21'
-            distribution: 'temurin'
+        with:
+          java-version: '21'
+          distribution: 'temurin'
 
       - name: Grant execute permission to Gradle
         run: chmod +x ./gradlew
-    
+
       - name: Build with Gradle (skip tests)
         run: ./gradlew build -x test
-    
+
       - name: Copy jar to EC2
         env:
-            PRIVATE_KEY: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
+          PRIVATE_KEY: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
         run: |
-            echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
-            scp -o StrictHostKeyChecking=no -i private_key.pem ${{ env.SRC_PATH }} ${{ env.EC2_USER }}@${{ env.EC2_HOST }}:${{ env.DEST_PATH }}
+          echo "$PRIVATE_KEY" > private_key.pem && chmod 600 private_key.pem
+          scp -o StrictHostKeyChecking=no -i private_key.pem build/libs/todo-0.0.1-SNAPSHOT.jar ${{ env.EC2_USER }}@${{ env.EC2_HOST }}:${{ env.DEST_PATH }}/${{ env.DEST_JAR_NAME }}
 
       - name: SSH into EC2 and restart app
         uses: appleboy/ssh-action@v0.1.6
         with:
-            host: ${{ env.EC2_HOST }}
-            username: ${{ env.EC2_USER }}
-            key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
-            script: |
-              echo "Stopping existing app (if any)..."
-              pkill -f 'java -jar' || true
-              echo "Starting new app in background..."
-              nohup java -jar ${{ env.DEST_PATH }} > app.log 2>&1 &
-
+          host: ${{ env.EC2_HOST }}
+          username: ${{ env.EC2_USER }}
+          key: ${{ secrets.AWS_EC2_PRIVATE_KEY }}
+          script: |
+            echo "Stopping existing app (if any)..."
+            pkill -f 'java -jar' || true
+            echo "Starting new app in background..."
+            nohup java -jar ${{ env.DEST_PATH }}/${{ env.DEST_JAR_NAME }} --server.port=8080 > app.log 2>&1 &
