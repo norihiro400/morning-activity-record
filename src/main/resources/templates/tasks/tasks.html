@@ -37,6 +37,14 @@
                     <input type="text" th:field="*{task}" class="form-control rounded-pill" placeholder="朝活の内容を決めよう" required minlength="1" maxlength="50">
                     <span th:errors="*{task}" class="text-danger"></span>
                 </div>
+                <div class="mb-3">
+                    <input type="checkbox" class="form-control rounded-pill">
+                    <label class="form-check-label" for="tasklabel">朝活を公開する</label>
+                </div>
+                <div class="mb-3">
+                    <input type="text" th:field="*{task}" class="form-control rounded-pill" placeholder="朝活の内容を決めよう" required minlength="1" maxlength="50">
+                    <span th:errors="*{task}" class="text-danger"></span>
+                </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary btn-lg rounded-pill w-50 shadow-sm">
                         決定！
