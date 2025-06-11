@@ -31,8 +31,7 @@ public class TasksController {
     //メイン画面
     @GetMapping("")
     public String view(Model model, TaskForm form){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+        String username = userService.getusername();
         UserEntity user = userService.findByUsername(username);
         var tomorror_task = taskService.findByDate(LocalDate.now().plusDays(1),user.getId()).stream().map(TaskDTO::toDTO).toList();
 
