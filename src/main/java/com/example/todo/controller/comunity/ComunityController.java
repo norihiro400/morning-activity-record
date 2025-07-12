@@ -6,6 +6,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import com.example.todo.exception.QuestionNotFoundException;
 import com.example.todo.repository.AnswerRepository;
 import com.example.todo.service.comunity.ComunityService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +39,7 @@ public class ComunityController {
 
     @GetMapping("/{questionId}")
     public String questionDetail(@PathVariable("questionId") Long questionId, Model model) {
-        var question = ComunityDTO.toDTO(comunityService.findById(questionId).orElseThrow(() -> new RuntimeException("質問が見つかりません")));
+        var question = ComunityDTO.toDTO(comunityService.findById(questionId).orElseThrow(() -> new QuestionNotFoundException(questionId)));
         //質問に対する回答を取得
         var answers = comunityService.findAnswerbyId(questionId).stream().map(AnswerDTO::toDTO).toList();
         model.addAttribute("question", question);
@@ -45,7 +47,7 @@ public class ComunityController {
         return "comunity/detail";
     }
 
-    @PostMapping("/post")
+    @PostMapping("")
     public String postMethodName(@Validated ComunityForm form,BindingResult bindingResult,Model model) {
         if (bindingResult.hasErrors()){
             return comunity(model);

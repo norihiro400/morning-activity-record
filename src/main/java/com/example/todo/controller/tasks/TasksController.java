@@ -137,4 +137,3 @@ public class TasksController {
         return "redirect:/tasks/input";
     }
 }
-
