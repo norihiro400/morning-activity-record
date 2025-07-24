@@ -35,6 +35,14 @@
                             <p th:errors="*{detail}" class=" text-danger text-center"></p>
                         </div>
 
+                        <!-- 公開設定チェックボックス -->
+                        <div class="form-check form-switch mb-4 text-center">
+                            <input class="form-check-input" type="checkbox" role="switch" id="isPublicSwitch" name="isPublic" th:checked="*{isPublic}">
+                            <label class="form-check-label fw-bold fs-5" for="isPublicSwitch">
+                                この朝活を他のユーザーに公開する
+                            </label>
+                        </div>
+
                         <!-- 送信ボタン -->
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary btn-lg w-50 rounded-pill shadow-sm" style="transition: 0.3s;">

@@ -77,11 +77,15 @@ public class TaskService {
         return "/images/" + filename;
     }
 
-    //今日のみんなの朝活を取得
+    //今日の朝活を取得
     public List<TaskEntity> findTodayTask(LocalDate localDate){
         return taskRepository.findByScheduledDate(localDate);
     }
 
+    //公開済みの朝活の取得
+    public List<TaskDetailEntity> getPublicTasks(){
+        return taskDetailRepository.findAllByisPublicTrue();
+    }
 }
 
 

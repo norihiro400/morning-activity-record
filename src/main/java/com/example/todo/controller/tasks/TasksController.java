@@ -1,6 +1,8 @@
 package com.example.todo.controller.tasks;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.todo.controller.getdate.GetDate;
 import com.example.todo.service.login.UserEntity;
 import com.example.todo.service.login.UserService;
+import com.example.todo.service.tasks.TaskDetailEntity;
+import com.example.todo.service.tasks.TaskEntity;
 import com.example.todo.service.tasks.TaskService;
 
 @Controller
@@ -97,7 +101,7 @@ public class TasksController {
     @GetMapping("/input")
     public String input(Model model,InputForm form){
         if (form == null){
-            form = new InputForm(null, null);
+            form = new InputForm(null, null,false);
         }
         model.addAttribute("inputForm", form);
         //本日の朝活があればそれを取得(entity->dto)
@@ -131,9 +135,23 @@ public class TasksController {
             e.printStackTrace();
         }
         
-        var entity = form.toDetailEntity(id,imagePath);
+        TaskEntity task = taskService.findById(id).orElseThrow();
+        TaskDetailEntity entity = form.toDetailEntity(task, imagePath);
         taskService.saveDetail(entity);
         taskService.setidDone(id);
         return "redirect:/tasks/input";
+    }
+
+    // みんなの公開済みの朝活の表示
+    @GetMapping("/public")
+    public String published_tasks(Model model){
+        List<TaskDetailEntity> taskDetailEntity =  taskService.getPublicTasks();
+        if (taskDetailEntity.isEmpty()){
+            model.addAttribute("emptyMessage", "公開されている朝活はありません");
+        }else {
+            List<TaskDTO> publicTaskList = taskDetailEntity.stream().map(TaskDTO::fromTaskDetailEntity).toList();
+            model.addAttribute("publictasklist", publicTaskList);
+        }
+        return "tasks/public-tasks";
     }
 }

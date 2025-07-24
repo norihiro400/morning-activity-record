@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS task_detail (
     image_path VARCHAR(255),
     detail TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_public BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY (task_id) REFERENCES task(id)
 );
 

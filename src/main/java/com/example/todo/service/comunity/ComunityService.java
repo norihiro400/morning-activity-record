@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.todo.repository.AnswerRepository;
 import com.example.todo.repository.ComunityRepository;
+import com.example.todo.repository.TaskDetailRepository;
+import com.example.todo.service.tasks.TaskDetailEntity;
+
 
 @Service
 public class ComunityService {
@@ -41,4 +44,6 @@ public class ComunityService {
     public List<AnswerEntity> findAnswerbyId(Long questionId){
         return answerRepository.findByQuestionId(questionId);
     }
+
+
 }

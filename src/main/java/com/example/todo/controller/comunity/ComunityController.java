@@ -6,7 +6,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import com.example.todo.exception.QuestionNotFoundException;
 import com.example.todo.repository.AnswerRepository;
 import com.example.todo.service.comunity.ComunityService;
@@ -74,5 +73,5 @@ public class ComunityController {
         answerRepository.save(entity);
         return "redirect:/comunity/"+questionId;
     }
-    
+
 }
