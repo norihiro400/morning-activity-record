@@ -1,7 +1,4 @@
 package com.example.todo.service.tasks;
-import java.util.List;
-
-import com.example.todo.controller.tasks.TaskDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

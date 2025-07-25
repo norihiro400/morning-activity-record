@@ -146,12 +146,10 @@ public class TasksController {
     @GetMapping("/public")
     public String published_tasks(Model model){
         List<TaskDetailEntity> taskDetailEntity =  taskService.getPublicTasks();
-        if (taskDetailEntity.isEmpty()){
-            model.addAttribute("emptyMessage", "公開されている朝活はありません");
-        }else {
-            List<TaskDTO> publicTaskList = taskDetailEntity.stream().map(TaskDTO::fromTaskDetailEntity).toList();
-            model.addAttribute("publictasklist", publicTaskList);
-        }
+
+        List<TaskDTO> publicTaskList = taskDetailEntity.stream().map(TaskDTO::fromTaskDetailEntity).toList();
+        model.addAttribute("publictasklist", publicTaskList);
+        
         return "tasks/public-tasks";
     }
 }

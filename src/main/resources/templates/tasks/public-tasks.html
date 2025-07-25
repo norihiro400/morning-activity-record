@@ -53,12 +53,16 @@
                 </thead>
                 <tbody>
                     <!-- 空のとき -->
-                    <tr>
-                        <td th:text="${emptyMessage}" colspan="4" class="text-center no-records"></td>
+                    <tr th:if="${#lists.isEmpty(publictasklist)}">
+                        <td colspan="5" class="text-center no-records">
+                            🌅 公開されている朝活はありません<br>
+                            明日から新しい朝活を始めてみましょう！
+                        </td>
                     </tr>
 
                     <!-- レコード表示 -->
-                    <tr th:each="task : ${publictasklist}" th:object="${task}" th:if="${not #lists.isEmpty(tasklist)}">
+                    <tr th:each="task : ${publictasklist}" th:object="${task}" th:if="${not #lists.isEmpty(publictasklist)}">
+                        <td th:text="*{username}"></td>
                         <td th:text="*{scheduledDate}"></td>
                         <td th:text="*{task}"></td>
                         <td th:text="*{label}"></td>
