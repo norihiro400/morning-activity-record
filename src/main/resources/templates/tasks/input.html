@@ -3,6 +3,29 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
+
+<head>
+    <style>
+        /* OFF状態でもスイッチが見やすいように調整 */
+        .form-check-input[type="checkbox"] {
+            border: 2px solid #6c757d;
+            background-color: #f8f9fa;
+            box-shadow: 0 0 0 0.05rem rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .form-check-input[type="checkbox"]:checked {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+        }
+
+        .form-check-input:focus {
+            box-shadow: none;
+        }
+    </style>
+</head>
+
 <section layout:fragment="content">
 <div class="container py-5">
     <!-- タイトル -->
@@ -21,18 +44,31 @@
 
                     <!-- フォーム部分 -->
                     <form th:action="@{/tasks/detail/{taskId}(taskId = ${task.id})}" method="post" enctype="multipart/form-data" th:object="${inputForm}">
+
                         <!-- ファイルアップロード -->
                         <div class="mb-4">
                             <label class="form-label fw-bold" for="fileInput" th:field="*{imagepath}">記録となる写真</label>
                             <input class="form-control rounded-pill" type="file" id="fileInput" name="imagepath">
-                            <p th:errors="*{imagepath}" class=" text-danger text-danger"></p>
+                            <p th:errors="*{imagepath}" class="text-danger text-center"></p>
                         </div>
 
                         <!-- 詳細入力欄 -->
                         <div class="mb-4">
                             <label class="form-label fw-bold" for="detailInput" th:field="*{detail}">詳細を記録しよう</label>
                             <textarea id="detailInput" class="form-control rounded-4" rows="6" placeholder="ここに詳細を入力してください" name="detail" th:text="*{detail}" required></textarea>
-                            <p th:errors="*{detail}" class=" text-danger text-center"></p>
+                            <p th:errors="*{detail}" class="text-danger text-center"></p>
+                        </div>
+
+                        <!-- スイッチ（見やすく＆ON/OFFラベル付き） -->
+                        <div class="d-flex justify-content-center align-items-center mb-4">
+                            <label for="isPublicSwitch" class="form-label fs-5 fw-bold mb-0 me-3">
+                                この朝活を他のユーザーに公開する
+                            </label>
+                            <div class="form-check form-switch d-flex align-items-center">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                       id="isPublicSwitch" name="isPublic" th:checked="*{isPublic}"
+                                       onchange="updateSwitchText(this)">
+                            </div>
                         </div>
 
                         <!-- 送信ボタン -->
@@ -40,7 +76,6 @@
                             <button type="submit" class="btn btn-primary btn-lg w-50 rounded-pill shadow-sm" style="transition: 0.3s;">
                                 完了
                             </button>
-
                         </div>
                     </form>
 
@@ -50,5 +85,16 @@
     </div>
 </div>
 </section>
+
+<script>
+    function updateSwitchText(el) {
+        document.getElementById("switchText").textContent = el.checked ? "ON" : "OFF";
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+        updateSwitchText(document.getElementById("isPublicSwitch"));
+    });
+</script>
+
 </html>
+
 
