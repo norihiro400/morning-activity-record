@@ -24,10 +24,6 @@ public class LoginController {
     public String loginpage(){
         return "login/login";
     }
-    @PostMapping("/login")
-    public String login(){
-        return "redirect:/tasks";
-    }
 
     @GetMapping("/")
     public String index(){

@@ -45,5 +45,4 @@
 -- );
 
 
--- ALTER TABLE task_detail ADD COLUMN is_public BOOLEAN NOT NULL DEFAULT FALSE;
 
