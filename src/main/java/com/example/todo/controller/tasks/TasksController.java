@@ -2,8 +2,6 @@ package com.example.todo.controller.tasks;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -26,11 +24,12 @@ import com.example.todo.service.tasks.TaskService;
 @RequestMapping("/tasks")
 public class TasksController {
 
-    @Autowired
-    TaskService taskService;
-    @Autowired
-    UserService userService;
-
+    private final TaskService taskService;
+    private final UserService userService;
+    public TasksController(TaskService taskService,UserService userService){
+        this.taskService = taskService;
+        this.userService = userService;
+    }
 
     //メイン画面
     @GetMapping("")

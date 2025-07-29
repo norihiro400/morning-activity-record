@@ -6,10 +6,8 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.example.todo.repository.TaskDetailRepository;
 import com.example.todo.repository.TaskRepository;
 import jakarta.transaction.Transactional;
@@ -17,10 +15,14 @@ import jakarta.transaction.Transactional;
 @Service
 public class TaskService {
     private static final String UPLOAD_DIR = "images/";
-    @Autowired
-    TaskRepository taskRepository;
-    @Autowired 
-    TaskDetailRepository taskDetailRepository;
+
+    private final TaskRepository taskRepository;
+    private final TaskDetailRepository taskDetailRepository;
+
+    public TaskService(TaskRepository taskRepository,TaskDetailRepository taskDetailRepository){
+        this.taskRepository = taskRepository;
+        this.taskDetailRepository = taskDetailRepository;
+    }
 
     @Transactional
     public void createtask(TaskEntity entity){
