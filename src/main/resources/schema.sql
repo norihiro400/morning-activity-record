@@ -44,5 +44,14 @@
 --     FOREIGN KEY (question_id) REFERENCES comunity(id)
 -- );
 
-
+-- -- フォローテーブル
+-- CREATE TABLE IF NOT EXISTS follow (
+--     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+--     follower_id BIGINT NOT NULL,
+--     followed_id BIGINT NOT NULL,
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (follower_id) REFERENCES users(id),
+--     FOREIGN KEY (followed_id) REFERENCES users(id),
+--     UNIQUE (follower_id,followed_id)
+-- )
 
