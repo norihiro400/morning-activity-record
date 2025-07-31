@@ -47,8 +47,6 @@ public class TasksController {
             model.addAttribute("task", "予定された朝活はありません");
         }
         //明日の日付を取得
-        String tomorror = GetDate.getTomorror();
-        model.addAttribute("tomorror", tomorror);
         model.addAttribute("tomorror_task", tomorror_task);
         model.addAttribute("username", username);
         return "tasks/tasks";

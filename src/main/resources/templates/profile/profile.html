@@ -3,25 +3,81 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asakatsu+ - プロフィール</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0f7fa, #e8f5e9);
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+        .profile-hero {
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #c2e9fb 0%, #a1c4fd 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        .profile-hero h1 {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .profile-hero p {
+            font-size: 1.1rem;
+        }
+        .profile-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: -60px;
+            z-index: 1;
+            position: relative;
+        }
+        .profile-item {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            color: #2e7d32;
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
 <section layout:fragment="content">
-    <div class="container mt-5">
+    <!-- プロフィールのヒーローセクション -->
+    <div class="profile-hero">
+        <h1>マイプロフィール</h1>
+        <p>あなたの朝活の歩みを振り返ってみましょう</p>
+    </div>
+
+    <div class="container fade-in">
         <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow">
-                    <div class="card-body text-center">
-                        <h1 class="card-title mb-4">プロフィール</h1>
-                        <p class="h5 mb-3">
-                            <strong>ユーザー名：</strong>
-                            <span th:text="${username}"></span>
-                        </p>
-                        <p class="h5">
-                            <strong>今までの朝活記録回数：</strong>
-                            <span th:text="${taskCount}"></span>
-                        </p>
+            <div class="col-md-8">
+                <div class="profile-card text-center">
+                    <div class="profile-item">
+                        ユーザー名：<span th:text="${username}"></span>
+                    </div>
+                    <div class="profile-item">
+                        朝活記録回数：<span th:text="${taskCount}"></span> 回
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+</body>
 </html>
