@@ -1,29 +1,120 @@
 <!DOCTYPE html>
-<html lang="ja">
-<html xmlns:th="http://www.thymeleaf.org">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ログインページ</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asakatsu+ ログイン</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: #f0f4f8;
+    }
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(135deg, #8fd3f4 0%, #84fab0 100%);
+      color: white;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      animation: fadeInDown 1s ease-out;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      animation: fadeInUp 1.2s ease-out;
+    }
+    .scroll-down {
+      margin-top: 3rem;
+      font-size: 1rem;
+      color: white;
+      animation: bounce 2s infinite;
+      cursor: pointer;
+    }
+    .login-section {
+      padding: 4rem 1rem;
+      background-color: #fff;
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -10px 20px rgba(0,0,0,0.1);
+    }
+    .login-box {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    .form-control {
+      font-size: 1rem;
+      padding: 0.75rem;
+    }
+    .btn-primary {
+      background-color: #4CAF50;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #43a047;
+    }
+    a {
+      text-decoration: none;
+      color: #4CAF50;
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
 </head>
-<body class="container bg-success-subtle">
-    <div class="container text-center">
-        <h1 class="fw-bold text-success">Asakatsu+</h1>
+<body>
+  <div class="hero">
+    <h1>ようこそ Asakatsu+ へ</h1>
+    <p>早起きを習慣に、最高の一日をはじめよう</p>
+    <a href="#login" class="scroll-down">▼ ログインフォームへ ▼</a>
+  </div>
+
+  <div id="login" class="login-section">
+    <div class="login-box">
+      <h2 class="text-center mb-4">ログイン</h2>
+      <form th:action="@{/login}" method="post">
+        <div class="mb-3">
+          <input type="text" name="username" class="form-control" placeholder="ユーザーネーム" required>
+        </div>
+        <div class="mb-3">
+          <input type="password" name="password" class="form-control" placeholder="パスワード" required>
+        </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" name="remember-me">
+          <label class="form-check-label">ログイン状態を保持する</label>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">ログイン</button>
+      </form>
+      <div class="text-center mt-3">
+        <a th:href="@{/register}">新規登録はこちら</a>
+      </div>
     </div>
-    <div class="container w-50 mx-auto border border-3 rounded p-4 bg-white shadow-sm">
-        <form th:action="@{/login}" method="post">
-            <div class="mb-3">
-                <input type="text" placeholder="ユーザーネーム" name="username" class="form-control">
-            </div>
-            <div class="mb-3">
-                <input type="password" placeholder="パスワード" name="password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-primary">ログイン</button>
-            <input type="checkbox" name="remember-me" />ログイン状態を保持する
-        </form>
-        <a th:href="@{/register}">新規登録</a>
-    </div>
-    
+  </div>
 </body>
 </html>
+
+

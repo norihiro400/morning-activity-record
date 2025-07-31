@@ -4,71 +4,125 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 <head>
-    <title>Asakatsu+</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asakatsu+ - 明日の朝活</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0f7fa 0%, #e8f5e9 100%);
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+        .hero-section {
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        .hero-section h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .hero-section p {
+            font-size: 1.1rem;
+        }
+        .task-form-section, .task-list-section {
+            background-color: #ffffff;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: -50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 1.5rem;
+        }
+        .form-select, .form-control {
+            border-radius: 50px;
+            padding: 0.75rem 1.25rem;
+        }
+        .btn-submit {
+            background-color: #4CAF50;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            border-radius: 30px;
+        }
+        .btn-submit:hover {
+            background-color: #388e3c;
+        }
+        .task-card {
+            background: #f9f9f9;
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
-
-<section layout:fragment="content" class="py-5 fade-in">
-<div class="container">
-
-    <!-- ユーザーへの挨拶 -->
-    <div class="mb-5 text-center">
-        <h2 class="fw-bold">
-            <span th:text="${username}"></span>さん、おかえりなさい！
-        </h2>
+<section layout:fragment="content">
+    <!-- ヒーローセクション -->
+    <div class="hero-section">
+        <h1>明日の朝活を計画しよう</h1>
+        <p>あなたの未来のために、1日の始まりをデザインする</p>
     </div>
 
-    <!-- 明日の朝活入力フォーム -->
-    <div class="card shadow rounded-4 mb-5">
-        <div class="card-header bg-primary text-white rounded-top-4">
-            <h4 class="fw-bold mb-0">明日 (<span th:text="${tomorror}"></span>) の朝活は何する？</h4>
-        </div>
-        <div class="card-body p-4">
+    <div class="container">
+        <!-- 朝活フォーム -->
+        <div class="task-form-section fade-in">
+            <div class="section-title">新しい朝活を登録</div>
             <form th:action="@{/tasks/input}" method="post" th:object="${taskForm}">
                 <div class="mb-3">
-                    <label for="tasklabel" class="form-label fw-bold">ジャンルを選択</label>
-                    <select id="tasklabel" th:field="*{label}" class="form-select rounded-pill" required>
+                    <label class="form-label">ジャンルを選択</label>
+                    <select th:field="*{label}" class="form-select" required>
                         <option value="勉強系">勉強系</option>
                         <option value="日常系">日常系</option>
                         <option value="運動系">運動系</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <input type="text" th:field="*{task}" class="form-control rounded-pill" placeholder="朝活の内容を決めよう" required minlength="1" maxlength="50">
-                    <span th:errors="*{task}" class="text-danger"></span>
+                    <input type="text" th:field="*{task}" class="form-control" placeholder="朝活の内容を入力" required minlength="1" maxlength="50">
+                    <span th:errors="*{task}" class="text-danger small"></span>
                 </div>
-
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-lg rounded-pill w-50 shadow-sm">
-                        決定！
-                    </button>
+                    <button type="submit" class="btn btn-submit">決定！</button>
                 </div>
             </form>
         </div>
-    </div>
 
-    <!-- 明日の朝活一覧 -->
-    <div class="card shadow rounded-4">
-        <div class="card-header bg-success text-white rounded-top-4">
-            <h4 class="fw-bold mb-0">明日の朝活</h4>
-        </div>
-        <div class="card-body p-4">
-            <div th:if="${#lists.isEmpty(tomorror_task)}" class="text-center text-muted">
+        <!-- タスクリスト -->
+        <div class="task-list-section fade-in mt-5">
+            <div class="section-title">登録済みの朝活</div>
+            <div th:if="${#lists.isEmpty(tomorror_task)}" class="text-muted text-center">
                 明日の朝活はまだ登録されていません。
             </div>
-            <div th:each="task : ${tomorror_task}" th:object="${task}" class="mb-4 d-flex justify-content-between align-items-center border-bottom pb-3 fade-in">
-                <p th:text="*{task}" class="mb-0 fs-5"></p>
+            <div th:each="task : ${tomorror_task}" th:object="${task}" class="task-card">
+                <p th:text="*{task}" class="mb-0 fw-semibold"></p>
                 <form th:action="@{/tasks/delete/{id}(id=*{id})}" method="post">
-                    <button type="submit" class="btn btn-outline-danger rounded-pill shadow-sm">
-                        <i class="bi bi-trash"></i> 削除
-                    </button>
+                    <button type="submit" class="btn btn-outline-danger rounded-pill">削除</button>
                 </form>
             </div>
         </div>
     </div>
-
-</div>
 </section>
-
 </body>
 </html>
