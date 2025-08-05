@@ -309,7 +309,7 @@
 
     <div class="container">
         <!-- ステータスメッセージ -->
-        <div class="status-message slide-up" th:text="${message}"></div>
+        <div class="status-message slide-up" th:if="${#lists.isEmpty(tasklist)}" th:text="${message}"></div>
 
         <!-- タスク一覧 -->
         <div class="row justify-content-center">
