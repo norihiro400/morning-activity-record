@@ -6,95 +6,403 @@
 
 <head>
     <style>
-        /* OFF状態でもスイッチが見やすいように調整 */
+        /* ヒーローセクション */
+        .hero-section {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            padding: 4rem 0;
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+            border-radius: 0 0 50px 50px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* メッセージスタイル */
+        .status-message {
+            background: linear-gradient(135deg, #e8f5e9 0%, #e0f7fa 100%);
+            padding: 1.5rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2e7d32;
+            border: 2px solid #4CAF50;
+        }
+
+        /* タスクカード */
+        .task-card {
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f0f0f0;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+        }
+
+        .task-card-body {
+            padding: 3rem;
+        }
+
+        /* タスクタイトルセクション */
+        .task-title-section {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 2rem;
+            margin: -3rem -3rem 3rem -3rem;
+            text-align: center;
+        }
+
+        .task-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .task-content {
+            font-size: 2rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 1rem;
+        }
+
+        /* フォーム要素 */
+        .form-label-custom {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2e7d32;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-control-custom {
+            border-radius: 15px;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e8f5e9;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .form-control-custom:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.15);
+        }
+
+        .form-control-file {
+            border-radius: 25px;
+            padding: 1rem 1.5rem;
+            border: 3px dashed #4CAF50;
+            background: #f8fbf8;
+            transition: all 0.3s ease;
+        }
+
+        .form-control-file:focus {
+            border-color: #2e7d32;
+            background: #e8f5e9;
+            box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.15);
+        }
+
+        /* テキストエリア */
+        .textarea-custom {
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 2px solid #e8f5e9;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            min-height: 150px;
+        }
+
+        .textarea-custom:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.15);
+        }
+
+        /* 公開スイッチセクション */
+        .switch-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #e8f5e9 100%);
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            border: 2px solid #e0e0e0;
+        }
+
+        .switch-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .switch-label {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2e7d32;
+            margin: 0;
+        }
+
+        /* カスタムスイッチ */
         .form-check-input[type="checkbox"] {
-            border: 2px solid #6c757d;
+            width: 3rem;
+            height: 1.5rem;
+            border: 3px solid #6c757d;
             background-color: #f8f9fa;
-            box-shadow: 0 0 0 0.05rem rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .form-check-input[type="checkbox"]:checked {
-            background-color: #0d6efd;
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+            box-shadow: 0 4px 20px rgba(76, 175, 80, 0.4);
         }
 
         .form-check-input:focus {
-            box-shadow: none;
+            box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+        }
+
+        /* 送信ボタン */
+        .btn-submit {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1.3rem;
+            border-radius: 30px;
+            color: white;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+            width: 60%;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #388e3c, #4CAF50);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(76, 175, 80, 0.4);
+            color: white;
+        }
+
+        .btn-submit:active {
+            transform: translateY(-1px);
+        }
+
+        /* エラーメッセージ */
+        .error-message {
+            color: #d32f2f;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        /* アニメーション */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .slide-up {
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-section p {
+                font-size: 1rem;
+            }
+            
+            .task-card-body {
+                padding: 2rem;
+            }
+            
+            .task-title-section {
+                padding: 1.5rem;
+                margin: -2rem -2rem 2rem -2rem;
+            }
+            
+            .task-content {
+                font-size: 1.5rem;
+                padding: 1rem;
+            }
+            
+            .btn-submit {
+                width: 80%;
+                padding: 0.8rem 2rem;
+                font-size: 1.1rem;
+            }
+            
+            .switch-container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .btn-submit {
+                width: 100%;
+            }
+            
+            .switch-section {
+                padding: 1.5rem;
+            }
+            
+            .task-content {
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
 
-<section layout:fragment="content">
-<div class="container py-5">
-    <!-- タイトル -->
-    <p class="text-center mb-5 fs-2 fw-bold text-primary">進行中の朝活</p>
-    <h2 class="text-center mb-5 text-secondary" th:text="${message}"></h2>
+<section layout:fragment="content" class="fade-in">
+    <!-- ヒーローセクション -->
+    <div class="hero-section">
+        <h1>🚀 進行中の朝活</h1>
+        <p>素晴らしい朝活を記録して完了させましょう！</p>
+    </div>
 
-    <!-- タスク一覧 -->
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow rounded-4 mb-5" th:each="task:${tasklist}">
-                <div class="card-body p-5">
+    <div class="container">
+        <!-- ステータスメッセージ -->
+        <div class="status-message slide-up" th:text="${message}"></div>
 
-                    <!-- 朝活タイトル -->
-                    <h5 class="card-title mb-4 text-center text-success fs-3 fw-bold">朝活内容:</h5>
-                    <p class="card-text fs-4 text-center mb-5" th:text="${task.task}"></p>
+        <!-- タスク一覧 -->
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="task-card slide-up" th:each="task:${tasklist}">
+                    <!-- タスクタイトルセクション -->
+                    <div class="task-title-section">
+                        <h2 class="task-title">✨ 今日の朝活</h2>
+                        <div class="task-content" th:text="${task.task}"></div>
+                    </div>
 
-                    <!-- フォーム部分 -->
-                    <form th:action="@{/tasks/detail/{taskId}(taskId = ${task.id})}" method="post" enctype="multipart/form-data" th:object="${inputForm}">
+                    <div class="task-card-body">
+                        <!-- フォーム部分 -->
+                        <form th:action="@{/tasks/detail/{taskId}(taskId = ${task.id})}" 
+                              method="post" 
+                              enctype="multipart/form-data" 
+                              th:object="${inputForm}">
 
-                        <!-- ファイルアップロード -->
-                        <div class="mb-4">
-                            <label class="form-label fw-bold" for="fileInput" th:field="*{imagepath}">記録となる写真</label>
-                            <input class="form-control rounded-pill" type="file" id="fileInput" name="imagepath">
-                            <p th:errors="*{imagepath}" class="text-danger text-center"></p>
-                        </div>
-
-                        <!-- 詳細入力欄 -->
-                        <div class="mb-4">
-                            <label class="form-label fw-bold" for="detailInput" th:field="*{detail}">詳細を記録しよう</label>
-                            <textarea id="detailInput" class="form-control rounded-4" rows="6" placeholder="ここに詳細を入力してください" name="detail" th:text="*{detail}" required></textarea>
-                            <p th:errors="*{detail}" class="text-danger text-center"></p>
-                        </div>
-
-                        <!-- スイッチ（見やすく＆ON/OFFラベル付き） -->
-                        <div class="d-flex justify-content-center align-items-center mb-4">
-                            <label for="isPublicSwitch" class="form-label fs-5 fw-bold mb-0 me-3">
-                                この朝活を他のユーザーに公開する
-                            </label>
-                            <div class="form-check form-switch d-flex align-items-center">
-                                <input class="form-check-input" type="checkbox" role="switch"
-                                       id="isPublicSwitch" name="isPublic" th:checked="*{isPublic}"
-                                       onchange="updateSwitchText(this)">
+                            <!-- ファイルアップロード -->
+                            <div class="mb-4">
+                                <label class="form-label-custom" for="fileInput">
+                                    📸 記録となる写真
+                                </label>
+                                <input class="form-control form-control-file" 
+                                       type="file" 
+                                       id="fileInput" 
+                                       name="imagepath">
+                                <div class="error-message" th:errors="*{imagepath}"></div>
                             </div>
-                        </div>
 
-                        <!-- 送信ボタン -->
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary btn-lg w-50 rounded-pill shadow-sm" style="transition: 0.3s;">
-                                完了
-                            </button>
-                        </div>
-                    </form>
+                            <!-- 詳細入力欄 -->
+                            <div class="mb-4">
+                                <label class="form-label-custom" for="detailInput">
+                                    📝 詳細を記録しよう
+                                </label>
+                                <textarea id="detailInput" 
+                                          class="form-control textarea-custom" 
+                                          rows="6" 
+                                          placeholder="今日の朝活はどうでしたか？感想や学んだことを記録しましょう..." 
+                                          name="detail" 
+                                          th:text="*{detail}" 
+                                          required></textarea>
+                                <div class="error-message" th:errors="*{detail}"></div>
+                            </div>
 
+                            <!-- 公開スイッチセクション -->
+                            <div class="switch-section">
+                                <div class="switch-container">
+                                    <label for="isPublicSwitch" class="switch-label">
+                                        🌐 この朝活を他のユーザーに公開する
+                                    </label>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" 
+                                               type="checkbox" 
+                                               role="switch"
+                                               id="isPublicSwitch" 
+                                               name="isPublic" 
+                                               th:checked="*{isPublic}"
+                                               onchange="updateSwitchText(this)">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 送信ボタン -->
+                            <div class="text-center">
+                                <button type="submit" class="btn-submit">
+                                    🎉 朝活を完了する
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </section>
 
 <script>
     function updateSwitchText(el) {
-        document.getElementById("switchText").textContent = el.checked ? "ON" : "OFF";
+        // 元のスクリプトをそのまま維持
+        const switchTextElement = document.getElementById("switchText");
+        if (switchTextElement) {
+            switchTextElement.textContent = el.checked ? "ON" : "OFF";
+        }
     }
+    
     document.addEventListener("DOMContentLoaded", function () {
-        updateSwitchText(document.getElementById("isPublicSwitch"));
+        const switchElement = document.getElementById("isPublicSwitch");
+        if (switchElement) {
+            updateSwitchText(switchElement);
+        }
     });
 </script>
 
 </html>
-
 
