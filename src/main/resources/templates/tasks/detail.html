@@ -3,30 +3,276 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
+
+<head>
+    <style>
+        /* ヒーローセクション */
+        .hero-section {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            padding: 3rem 0;
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+            border-radius: 0 0 50px 50px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-section h1 {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-section p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* メインカード */
+        .detail-card {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .detail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+        }
+
+        /* カードヘッダー */
+        .card-header-custom {
+            background: linear-gradient(135deg, #e8f5e9 0%, #e0f7fa 100%);
+            padding: 2.5rem;
+            text-align: center;
+            border: none;
+        }
+
+        /* タイトルセクション */
+        .title-section {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 2rem;
+            margin: -1px -1px 0 -1px;
+            border-radius: 25px 25px 0 0;
+        }
+
+        .title-section h5 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .task-content {
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 1rem;
+        }
+
+        /* カードボディ */
+        .card-body-custom {
+            padding: 3rem;
+        }
+
+        /* 画像セクション */
+        .image-section {
+            margin-bottom: 3rem;
+        }
+
+        .image-label {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2e7d32;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .image-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background: #f8f9fa;
+            padding: 1rem;
+        }
+
+        .record-image {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .record-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* 詳細セクション */
+        .detail-section {
+            background: #f8fbf8;
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 2px solid #e8f5e9;
+        }
+
+        .detail-label {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2e7d32;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .detail-content {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #333;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid #e0e0e0;
+            min-height: 120px;
+        }
+
+        /* アニメーション */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .slide-up {
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* 装飾的な要素 */
+        .decoration-line {
+            height: 4px;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border-radius: 2px;
+            margin: 2rem 0;
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero-section p {
+                font-size: 1rem;
+            }
+            
+            .task-content {
+                font-size: 1.4rem;
+            }
+            
+            .card-body-custom {
+                padding: 2rem;
+            }
+            
+            .detail-section {
+                padding: 1.5rem;
+            }
+            
+            .detail-content {
+                padding: 1.5rem;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .title-section {
+                padding: 1.5rem;
+            }
+            
+            .task-content {
+                font-size: 1.2rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
 <section layout:fragment="content">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card mb-4" th:object="${task}">
+    <!-- ヒーローセクション -->
+    <div class="hero-section fade-in">
+        <h1>📖 朝活の記録</h1>
+        <p>素晴らしい取り組みの詳細をご覧ください</p>
+    </div>
 
-                <div class="card-body">
-                    <h5 class="card-title mb-3">朝活内容:</h5>
-                    <p class="card-text fs-4" th:text="*{task}"></p>
-
-                    
-                    <div th:object="${detail}">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold" for="fileInput">記録となる写真</label>
-                            <img th:src="@{${detail.imagepath}}" alt="記録画像" class="img-fluid" style="max-width: 100%; height: auto;">
-                        </div>
-    
-                      
-                        <div class="mb-4">
-                            <label class="form-label fw-bold" for="detailInput">詳細</label>
-                            <p id="detailInput" th:text="*{detail}"></p>
-                        </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="detail-card slide-up" th:object="${task}">
+                    <!-- タイトルセクション -->
+                    <div class="title-section">
+                        <h5>✨ 朝活内容</h5>
+                        <div class="task-content" th:text="*{task}"></div>
                     </div>
 
-                
+                    <!-- カードボディ -->
+                    <div class="card-body-custom">
+                        <div th:object="${detail}">
+                            <!-- 画像セクション -->
+                            <div class="image-section">
+                                <div class="image-label">
+                                    📸 記録となる写真
+                                </div>
+                                <div class="image-container">
+                                    <img th:src="@{${detail.imagepath}}" 
+                                         alt="記録画像" 
+                                         class="record-image">
+                                </div>
+                            </div>
+
+                            <div class="decoration-line"></div>
+
+                            <!-- 詳細セクション -->
+                            <div class="detail-section">
+                                <div class="detail-label">
+                                    📝 詳細
+                                </div>
+                                <div class="detail-content" th:text="*{detail}"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
