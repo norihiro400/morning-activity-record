@@ -7,71 +7,295 @@
 <head>
     <title>記録一覧</title>
     <style>
+        /* ヒーローセクション */
+        .hero-section {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            padding: 4rem 0;
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+            border-radius: 0 0 50px 50px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+
+
+        /* レコードカード */
         .record-card {
-            background-color: #ffffff;
-            border-radius: 1rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid #f5f5f5;
+        }
+
+        .record-header {
+            background: linear-gradient(135deg, #e8f5e9 0%, #e0f7fa 100%);
             padding: 2rem;
+            text-align: center;
         }
 
         .record-title {
+            font-size: 1.8rem;
             font-weight: bold;
-            color: #20c997;
+            color: #2e7d32;
+            margin-bottom: 0.5rem;
+        }
+
+        .record-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* テーブルスタイル */
+        .record-table {
+            margin: 0;
+            border: none;
         }
 
         .record-table th {
-            background-color: #e8f5e9;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            font-weight: 600;
+            padding: 1.2rem;
+            border: none;
+            font-size: 1rem;
         }
 
-        .no-records {
-            color: #888;
+        .record-table th:first-child {
+            border-radius: 0;
+        }
+
+        .record-table th:last-child {
+            border-radius: 0;
+        }
+
+        .record-table td {
+            padding: 1.5rem 1.2rem;
+            border: none;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: middle;
+        }
+
+        .record-table tbody tr {
+            transition: background-color 0.3s ease;
+        }
+
+        .record-table tbody tr:hover {
+            background-color: #f8fbf8;
+        }
+
+        /* ジャンルバッジ */
+        .genre-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .genre-勉強系 {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .genre-運動系 {
+            background-color: #fff3e0;
+            color: #f57c00;
+        }
+
+        .genre-日常系 {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        /* 日付スタイル */
+        .date-display {
+            font-weight: 600;
+            color: #2e7d32;
+            font-size: 1rem;
+        }
+
+        /* タスク名スタイル */
+        .task-name {
+            font-weight: 600;
+            color: #333;
             font-size: 1.1rem;
-            padding: 2rem 0;
+        }
+
+        /* 詳細ボタン */
+        .btn-detail {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-detail:hover {
+            background: linear-gradient(135deg, #388e3c, #4CAF50);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+            color: white;
+        }
+
+        /* 空の状態 */
+        .no-records {
+            padding: 4rem 2rem;
+            text-align: center;
+            color: #888;
+        }
+
+        .no-records-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .no-records h3 {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .no-records p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* アニメーション */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .slide-up {
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-section p {
+                font-size: 1rem;
+            }
+            
+            .record-table {
+                font-size: 0.9rem;
+            }
+            
+            .record-table th,
+            .record-table td {
+                padding: 1rem 0.8rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 
-<section layout:fragment="content" class="py-5 fade-in">
+<section layout:fragment="content">
+    <!-- ヒーローセクション -->
+    <div class="hero-section fade-in">
+        <h1>📚 朝活の記録</h1>
+        <p>あなたの成長の軌跡を振り返りましょう</p>
+    </div>
+
     <div class="container">
-        <!-- タイトル -->
-        <div class="text-center mb-4">
-            <h2 class="record-title">📘 朝活の記録一覧</h2>
-            <p class="text-muted">これまで取り組んだ朝活を振り返ろう！</p>
-        </div>
 
-        <!-- テーブル -->
-        <div class="record-card">
-            <table class="table table-striped record-table align-middle">
-                <thead>
-                    <tr>
-                        <th>日付</th>
-                        <th>タイトル</th>
-                        <th>ジャンル</th>
-                        <th>詳細</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- 空のとき -->
-                    <tr th:if="${#lists.isEmpty(tasklist)}">
-                        <td colspan="4" class="text-center no-records">
-                            🌅 記録はまだありません。<br>
-                            明日から新しい朝活を始めてみましょう！
-                        </td>
-                    </tr>
 
-                    <!-- レコード表示 -->
-                    <tr th:each="task : ${tasklist}" th:object="${task}" th:if="${not #lists.isEmpty(tasklist)}">
-                        <td th:text="*{scheduledDate}"></td>
-                        <td th:text="*{task}"></td>
-                        <td th:text="*{label}"></td>
-                        <td>
-                            <a class="btn btn-outline-success btn-sm rounded-pill" th:href="@{/tasks/{id}(id=*{id})}">
-                                詳細を見る
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- 記録テーブル -->
+        <div class="record-card slide-up">
+            <div class="record-header">
+                <h2 class="record-title">朝活履歴</h2>
+                <p class="record-subtitle">これまでの取り組みを確認できます</p>
+            </div>
+
+            <!-- 空の場合 -->
+            <div th:if="${#lists.isEmpty(tasklist)}" class="no-records">
+                <div class="no-records-icon">🌅</div>
+                <h3>まだ記録がありません</h3>
+                <p>
+                    新しい朝活を始めて、<br>
+                    素晴らしい一日をスタートしましょう！
+                </p>
+            </div>
+
+            <!-- レコードがある場合 -->
+            <div th:if="${not #lists.isEmpty(tasklist)}">
+                <table class="table record-table">
+                    <thead>
+                        <tr>
+                            <th>📅 実施日</th>
+                            <th>✨ 朝活内容</th>
+                            <th>🏷️ ジャンル</th>
+                            <th>👀 詳細</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="task : ${tasklist}" th:object="${task}">
+                            <td>
+                                <span class="date-display" th:text="*{scheduledDate}"></span>
+                            </td>
+                            <td>
+                                <span class="task-name" th:text="*{task}"></span>
+                            </td>
+                            <td>
+                                <span class="genre-badge" 
+                                      th:classappend="'genre-' + *{label}"
+                                      th:text="*{label}"></span>
+                            </td>
+                            <td>
+                                <a class="btn-detail" th:href="@{/tasks/{id}(id=*{id})}">
+                                    詳細を見る
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </section>
