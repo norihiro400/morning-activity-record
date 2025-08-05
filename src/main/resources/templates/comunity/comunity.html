@@ -4,50 +4,368 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 
-<section layout:fragment="content" class="py-5 fade-in">
+<head>
+    <style>
+        /* ヒーローセクション */
+        .hero-section {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            padding: 4rem 0;
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+            border-radius: 0 0 50px 50px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* 投稿フォームカード */
+        .post-form-card {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
+            margin-bottom: 3rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .post-form-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 1.5rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .form-body {
+            padding: 2.5rem;
+        }
+
+        .form-control-custom {
+            border-radius: 15px;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e8f5e9;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .form-control-custom:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.15);
+        }
+
+        .form-label-custom {
+            font-weight: 700;
+            color: #2e7d32;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #388e3c, #4CAF50);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+            color: white;
+        }
+
+        /* 投稿一覧セクション */
+        .posts-section {
+            margin-top: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            margin: 0.5rem auto;
+            border-radius: 2px;
+        }
+
+        /* 投稿カード */
+        .post-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+            border: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .post-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-card-body {
+            padding: 2rem;
+        }
+
+        .post-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .post-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .btn-view {
+            background: linear-gradient(135deg, #2196f3, #42a5f5);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            font-size: 0.95rem;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-view:hover {
+            background: linear-gradient(135deg, #1976d2, #2196f3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+            color: white;
+        }
+
+        /* 空の状態 */
+        .no-posts {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #888;
+        }
+
+        .no-posts-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .no-posts h3 {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .no-posts p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* アニメーション */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .slide-up {
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .stagger-animation {
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .stagger-animation:nth-child(1) { animation-delay: 0.1s; }
+        .stagger-animation:nth-child(2) { animation-delay: 0.2s; }
+        .stagger-animation:nth-child(3) { animation-delay: 0.3s; }
+        .stagger-animation:nth-child(4) { animation-delay: 0.4s; }
+        .stagger-animation:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-section p {
+                font-size: 1rem;
+            }
+            
+            .form-body {
+                padding: 2rem;
+            }
+            
+            .post-card-body {
+                padding: 1.5rem;
+            }
+            
+            .post-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .form-body {
+                padding: 1.5rem;
+            }
+            
+            .btn-submit {
+                width: 100%;
+            }
+            
+            .post-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+<section layout:fragment="content" class="fade-in">
+    <!-- ヒーローセクション -->
+    <div class="hero-section">
+        <h1>🌞 朝活掲示板</h1>
+        <p>朝活に関する悩みや質問を気軽に投稿して共有しよう！</p>
+    </div>
+
     <div class="container">
-
-        <!-- ヘッダー -->
-        <div class="text-center mb-5">
-            <h2 class="fw-bold text-success">🌞 朝活掲示板</h2>
-            <p class="text-muted">朝活に関する悩みや質問を気軽に投稿して共有しよう！</p>
-        </div>
-
         <!-- 投稿フォーム -->
-        <div class="card shadow-sm mb-5">
-            <div class="card-header bg-primary text-white rounded-top">
-                <h5 class="mb-0">📝 投稿する</h5>
+        <div class="post-form-card slide-up">
+            <div class="form-header">
+                📝 新しい投稿をする
             </div>
-            <div class="card-body">
+            <div class="form-body">
                 <form th:action="@{/comunity}" method="post">
-                    <div class="mb-3">
-                        <label for="title" class="form-label fw-bold">タイトル</label>
-                        <input type="text" class="form-control rounded-pill" id="title" name="title" placeholder="タイトルを入力してください" required maxlength="30">
+                    <div class="mb-4">
+                        <label for="title" class="form-label-custom">✨ タイトル</label>
+                        <input type="text" 
+                               class="form-control form-control-custom" 
+                               id="title" 
+                               name="title" 
+                               placeholder="タイトルを入力してください" 
+                               required 
+                               maxlength="30">
                     </div>
-                    <div class="mb-3">
-                        <label for="content" class="form-label fw-bold">質問内容</label>
-                        <textarea class="form-control rounded" name="content" id="content" rows="4" placeholder="質問を入力してください" required></textarea>
+                    <div class="mb-4">
+                        <label for="content" class="form-label-custom">💭 質問内容</label>
+                        <textarea class="form-control form-control-custom" 
+                                  name="content" 
+                                  id="content" 
+                                  rows="4" 
+                                  placeholder="質問を入力してください" 
+                                  required></textarea>
                     </div>
                     <div class="text-end">
-                        <button type="submit" class="btn btn-success rounded-pill px-4">投稿する</button>
+                        <button type="submit" class="btn-submit">
+                            投稿する
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
 
         <!-- 投稿一覧 -->
-        <h4 class="mb-3 fw-bold text-success">🗂️ 投稿一覧</h4>
-        <div class="d-grid gap-4">
+        <div class="posts-section slide-up">
+            <h2 class="section-title">🗂️ みんなの投稿</h2>
+            
+            <!-- 投稿がない場合 -->
+            <div th:if="${#lists.isEmpty(questions)}" class="no-posts">
+                <div class="no-posts-icon">💬</div>
+                <h3>まだ投稿がありません</h3>
+                <p>
+                    最初の投稿をして、<br>
+                    コミュニティを盛り上げましょう！
+                </p>
+            </div>
 
-            <!-- 投稿カード（繰り返し用のテンプレ） -->
-            <div class="card shadow-sm" th:each="question : ${questions}" th:object="${question}" th:if="${not #lists.isEmpty(questions)}">
-                <div class="card-body">
-                    <h5 class="card-title text-primary fw-bold" th:text="*{title}"></h5>
-                    <a th:href="@{/comunity/{id}(id=*{id})}" class="btn btn-outline-primary rounded-pill btn-sm">質問を見る</a>
+            <!-- 投稿一覧 -->
+            <div class="d-grid gap-4" th:if="${not #lists.isEmpty(questions)}">
+                <div class="post-card stagger-animation" 
+                     th:each="question : ${questions}" 
+                     th:object="${question}">
+                    <div class="post-card-body">
+                        <h5 class="post-title" th:text="*{title}"></h5>
+                        <div class="post-meta">
+                            <span class="post-meta-item">
+                                👤 投稿者
+                            </span>
+                            <span class="post-meta-item">
+                                📅 投稿日時
+                            </span>
+                        </div>
+                        <a class="btn-view" th:href="@{/comunity/{id}(id=*{id})}">
+                            質問を見る
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 </section>
 
