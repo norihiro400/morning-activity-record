@@ -76,6 +76,59 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* チャットボタン */
+        .chatbot-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            z-index: 1000;
+        }
+
+        /* チャット画面 */
+        .chatbot-window {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .chatbot-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-body {
+            padding: 10px;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -123,6 +176,40 @@
             </div>
         </div>
     </div>
+    <!-- チャットボタン -->
+    <div id="chatbot-button" class="chatbot-button">
+        <img src="https://cdn-icons-png.flaticon.com/512/2331/2331713.png" alt="Chatbot Icon" width="50" height="50">
+    </div>
+
+    <!-- チャット画面 -->
+    <div id="chatbot-window" class="chatbot-window">
+        <div class="chatbot-header">
+            <span>AIチャットボット</span>
+            <button id="chatbot-close" class="btn-close">&times;</button>
+        </div>
+        <div class="chatbot-body">
+            <p>こんにちは！何かお手伝いできることはありますか？</p>
+            <textarea id="chatbot-input" class="form-control" placeholder="質問を入力してください..."></textarea>
+            <button id="chatbot-send" class="btn btn-primary mt-2">送信</button>
+        </div>
+    </div>
 </section>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const chatbotButton = document.getElementById("chatbot-button");
+        const chatbotWindow = document.getElementById("chatbot-window");
+        const chatbotClose = document.getElementById("chatbot-close");
+
+        // チャットボタンをクリックしてチャット画面を表示
+        chatbotButton.addEventListener("click", function () {
+            chatbotWindow.style.display = "flex";
+        });
+
+        // チャット画面を閉じる
+        chatbotClose.addEventListener("click", function () {
+            chatbotWindow.style.display = "none";
+        });
+    });
+</script>
 </body>
 </html>
