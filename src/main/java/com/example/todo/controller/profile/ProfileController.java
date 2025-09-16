@@ -3,6 +3,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.todo.controller.tasks.TaskDTO;
@@ -20,6 +21,7 @@ public class ProfileController {
     @Autowired
     TaskService taskService;
     
+    // 自分のプロフィール画面
     @GetMapping("")
     public String profile(Model model){
         String username = userService.getusername();
@@ -29,5 +31,15 @@ public class ProfileController {
         model.addAttribute("taskCount", taskCount);
         model.addAttribute("username", username);
         return "profile/profile";
+    }
+
+    @GetMapping("/{username}")
+    public String otherProfile(@PathVariable String username ,Model model){
+        UserEntity user = userService.findByUsername(username);
+        var taskList = taskService.findByuserId(user.getId()).stream().map(TaskDTO::toDTO).toList();
+        int taskCount = taskList.size();
+        model.addAttribute("taskCount", taskCount);
+        model.addAttribute("username", username);
+        return "profile/other-profile";
     }
 }

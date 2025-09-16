@@ -314,7 +314,7 @@
                     <tbody>
                         <tr th:each="task : ${publictasklist}" th:object="${task}">
                             <td>
-                                <a class="username-display" th:href = "@{/tasks}" th:text="*{username}"></a>
+                                <a class="username-display" th:href = "@{/profile/{username}(username = *{username})}" th:text="*{username}"></a>
                             </td>
                             <td>
                                 <span class="date-display" th:text="*{scheduledDate}"></span>
