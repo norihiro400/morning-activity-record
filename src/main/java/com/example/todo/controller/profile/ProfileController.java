@@ -38,6 +38,7 @@ public class ProfileController {
         UserEntity user = userService.findByUsername(username);
         var taskList = taskService.findByuserId(user.getId()).stream().map(TaskDTO::toDTO).toList();
         int taskCount = taskList.size();
+        model.addAttribute("username", username);
         model.addAttribute("taskCount", taskCount);
         model.addAttribute("username", username);
         return "profile/other-profile";
