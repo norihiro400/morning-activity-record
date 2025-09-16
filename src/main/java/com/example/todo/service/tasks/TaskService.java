@@ -24,6 +24,7 @@ public class TaskService {
         this.taskDetailRepository = taskDetailRepository;
     }
 
+    // タスク作成
     @Transactional
     public void createtask(TaskEntity entity){
         taskRepository.save(entity);
