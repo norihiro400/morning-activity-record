@@ -86,11 +86,16 @@
                         朝活記録回数：<span th:text="${taskCount}"></span> 回
                     </div>
                     <!-- フォローボタン -->
-                    <div class="mt-3">
-                        <button class="btn btn-primary follow-btn">
-                                フォロー
-                        </button>
-                    </div>
+                    <form th:action="@{/profile/follow/{username}(username = *{username})}" method="post">
+                        <div class="mt-3">
+                            <button class="btn follow-btn" 
+                                    type="submit"
+                                    th:classappend="${isFollowing} ? 'following btn-secondary' : 'btn-primary'"
+                                    th:text="${isFollowing} ? 'フォロー済み' : 'フォロー'"
+                                    th:disabled="${isFollowing}">
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
