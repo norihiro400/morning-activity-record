@@ -1,7 +1,10 @@
 package com.example.todo.service.follow;
 
+import org.springframework.stereotype.Service;
+
 import com.example.todo.repository.FollowUserRepositoryImpl;
 
+@Service
 public class FollowServiceImpl implements FollowService {
     private final FollowUserRepositoryImpl followUserRepositoryImpl;
 
