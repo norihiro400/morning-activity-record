@@ -1,4 +1,7 @@
 package com.example.todo.controller.profile;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,7 +63,8 @@ public class ProfileController {
         FollowEntity followEntity = createFollowEntity(username);
         // フォロー処理の呼び出し
         followService.followUser(followEntity);
-        return "redirect:/profile/" + username;
+        String encodedUsername = URLEncoder.encode(username, StandardCharsets.UTF_8);
+        return "redirect:/profile/" + encodedUsername;
     }
 
     public FollowEntity createFollowEntity(String username) {
