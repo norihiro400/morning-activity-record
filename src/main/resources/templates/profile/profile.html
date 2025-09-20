@@ -74,6 +74,16 @@
                     <div class="profile-item">
                         朝活記録回数：<span th:text="${taskCount}"></span> 回
                     </div>
+                    <div class="profile-item">
+                        <a th:href="@{/profile/following/{username}(username=${username})}">
+                            フォロー中
+                        </a>：<span th:text="${following}"></span> 人
+                    </div>
+                    <div class="profile-item">
+                        <a th:href="@{/profile/followed/{username}(username=${username})}">
+                            フォロワー
+                        </a>：<span th:text="${followed}"></span> 人
+                    </div>
                 </div>
             </div>
         </div>

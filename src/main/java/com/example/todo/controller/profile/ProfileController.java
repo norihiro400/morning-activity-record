@@ -36,9 +36,32 @@ public class ProfileController {
         UserEntity user = userService.findByUsername(username);
         var taskList = taskService.findByuserId(user.getId()).stream().map(TaskDTO::toDTO).toList();
         int taskCount = taskList.size();
+        long following = followService.countFollowing(user.getId());
+        long followed = followService.countFollowers(user.getId());
         model.addAttribute("taskCount", taskCount);
         model.addAttribute("username", username);
+        model.addAttribute("following", following);
+        model.addAttribute("followed", followed);
         return "profile/profile";
+    }
+
+    // フォロー中のユーザー一覧画面
+    @GetMapping("/following/{username}")
+    public String followers(@PathVariable String username, Model model){
+        UserEntity user = userService.findByUsername(username);
+        Long userId = user.getId();
+        var followingUserIdList = followService.getFollowingUserId(userId);
+        model.addAttribute("followingUserIdList", followingUserIdList);
+        return "profile/followers";
+    }
+    // フォロワーのユーザー一覧画面
+    @GetMapping("/followed/{username}")
+    public String followed(@PathVariable String username, Model model){
+        UserEntity user = userService.findByUsername(username);
+        Long userId = user.getId();
+        var followedUserIdList = followService.getFollowedUserId(userId);
+        model.addAttribute("followedUserIdList", followedUserIdList);
+        return "profile/followers";
     }
 
     // 他人のプロフィール画面
@@ -50,6 +73,12 @@ public class ProfileController {
         UserEntity user = userService.findByUsername(username);
         var taskList = taskService.findByuserId(user.getId()).stream().map(TaskDTO::toDTO).toList();
         int taskCount = taskList.size();
+
+        // 表示しているのが自分かどうか
+        if(userService.getusername().equals(username)){
+            return "redirect:/profile";
+        }
+
         model.addAttribute("username", username);
         model.addAttribute("taskCount", taskCount);
         model.addAttribute("username", username);
