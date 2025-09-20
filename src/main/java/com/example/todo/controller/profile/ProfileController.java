@@ -45,24 +45,6 @@ public class ProfileController {
         return "profile/profile";
     }
 
-    // フォロー中のユーザー一覧画面
-    @GetMapping("/following/{username}")
-    public String followers(@PathVariable String username, Model model){
-        UserEntity user = userService.findByUsername(username);
-        Long userId = user.getId();
-        var followingUserIdList = followService.getFollowingUserId(userId);
-        model.addAttribute("followingUserIdList", followingUserIdList);
-        return "profile/followers";
-    }
-    // フォロワーのユーザー一覧画面
-    @GetMapping("/followed/{username}")
-    public String followed(@PathVariable String username, Model model){
-        UserEntity user = userService.findByUsername(username);
-        Long userId = user.getId();
-        var followedUserIdList = followService.getFollowedUserId(userId);
-        model.addAttribute("followedUserIdList", followedUserIdList);
-        return "profile/followers";
-    }
 
     // 他人のプロフィール画面
     @GetMapping("/{username}")
