@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asakatsu+ - ユーザー一覧</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0f7fa, #e8f5e9);
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+        .user-hero {
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #c2e9fb 0%, #a1c4fd 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        .user-hero h1 {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .user-hero p {
+            font-size: 1.1rem;
+        }
+        .user-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .user-card h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+        .user-card p {
+            font-size: 1rem;
+            color: #555;
+        }
+        .follow-btn {
+            margin-top: 1rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-size: 1rem;
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+<section layout:fragment="content">
+    <!-- ユーザー一覧のヒーローセクション -->
+    <div class="user-hero">
+        <h1 th:text = "&{following_or_followed}"></h1>
+    </div>
+
+    <div class="container fade-in">
+        <div class="row">
+            <!-- ユーザー一覧をループで表示 -->
+            <div class="col-md-4" th:each="user : ${users}">
+                <div class="user-card">
+                    <h2 th:text="${userIdList}"></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
