@@ -96,6 +96,29 @@ public class ProfileController {
         return "redirect:/profile/" + encodedUsername;
     }
 
+    // フォロー中ユーザー表示
+    @GetMapping("/following/{username}")
+    public String followingUser(@PathVariable String username, Model model){
+        UserEntity user = userService.findByUsername(username);
+        Long userId = user.getId();
+        var followingUserIdList = followService.getFollowingUserId(userId);
+        model.addAttribute("following_or_followed", "フォロー中");
+        model.addAttribute("userIdList", followingUserIdList);
+        return "profile/users";
+    }
+
+    // フォロワー表示
+    @GetMapping("/followed/{username}")
+    public String followedUser(@PathVariable String username, Model model){
+        UserEntity user = userService.findByUsername(username);
+        Long userId = user.getId();
+        var followedUserIdList = followService.getFollowedUserId(userId);
+        model.addAttribute("following_or_followed", "フォロワー");
+        model.addAttribute("userIdList", followedUserIdList);
+        return "profile/users";
+    }
+
+
     public FollowEntity createFollowEntity(String username) {
         // フォローを行うユーザー
         String followingUsername = userService.getusername();
