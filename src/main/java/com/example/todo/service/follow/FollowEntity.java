@@ -6,20 +6,23 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "follow")
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class FollowEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final Long id;
+    private Long id;
     @Column(name = "follower_id", nullable = false)
-    private final Long followerId; // フォロワーのユーザーID  
+    private Long followerId; // フォロワーのユーザーID  
     @Column(name = "followed_id", nullable = false)
-    private final Long followedId; // フォローされるユーザーID
+    private Long followedId; // フォローされるユーザーID
 
 }
