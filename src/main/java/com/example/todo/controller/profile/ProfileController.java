@@ -85,7 +85,7 @@ public class ProfileController {
         Long userId = user.getId();
         var followingUserIdList = followService.getFollowingUserId(userId);
         model.addAttribute("following_or_followed", "フォロー中");
-        model.addAttribute("userIdList", followingUserIdList);
+        model.addAttribute("usersIdList", followingUserIdList);
         return "profile/users";
     }
 
@@ -96,7 +96,7 @@ public class ProfileController {
         Long userId = user.getId();
         var followedUserIdList = followService.getFollowedUserId(userId);
         model.addAttribute("following_or_followed", "フォロワー");
-        model.addAttribute("userIdList", followedUserIdList);
+        model.addAttribute("usersIdList", followedUserIdList);
         return "profile/users";
     }
 

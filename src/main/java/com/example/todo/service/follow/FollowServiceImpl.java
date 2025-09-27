@@ -32,7 +32,7 @@ public class FollowServiceImpl implements FollowService {
                                         stream().
                                         map(FollowEntity::getFollowedId).
                                         toList();        
-        return followingUserIdList; // 仮の実装
+        return followingUserIdList; 
     }
 
     // フォロワーのユーザー一覧取得
@@ -42,7 +42,7 @@ public class FollowServiceImpl implements FollowService {
                                         stream().
                                         map(FollowEntity::getFollowerId).
                                         toList();
-        return followedUserIdList; // 仮の実装
+        return followedUserIdList;
     }
 
     // フォロー中の人数をカウント
