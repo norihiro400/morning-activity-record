@@ -2,16 +2,20 @@ package com.example.todo.service.follow;
 
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Service;
 
 import com.example.todo.repository.FollowUserRepositoryImpl;
+import com.example.todo.service.login.UserService;
 
 @Service
 public class FollowServiceImpl implements FollowService {
     private final FollowUserRepositoryImpl followUserRepositoryImpl;
+    private final UserService userService;
 
-    public FollowServiceImpl(FollowUserRepositoryImpl followUserRepositoryImpl) {
+    public FollowServiceImpl(FollowUserRepositoryImpl followUserRepositoryImpl, UserService userService) {
         this.followUserRepositoryImpl = followUserRepositoryImpl;
+        this.userService = userService;
     }
     @Override
     public void followUser(FollowEntity entity){
@@ -35,6 +39,15 @@ public class FollowServiceImpl implements FollowService {
         return followingUserIdList; 
     }
 
+   public List<String> getFollowingUser(Long userId){
+        List<String> followingUserList = followUserRepositoryImpl.findAllByFollowerId(userId).
+                                        stream().
+                                        map(FollowEntity::getFollowedId).
+                                        map(id -> userService.getUserNameById(userId)).
+                                        toList();        
+        return followingUserList; 
+    }
+
     // フォロワーのユーザー一覧取得
     @Override
     public List<Long> getFollowedUserId(Long userid){
@@ -43,6 +56,15 @@ public class FollowServiceImpl implements FollowService {
                                         map(FollowEntity::getFollowerId).
                                         toList();
         return followedUserIdList;
+    }
+
+    public List<String> getFollowedUser(Long userId){
+        List<String> followedUserList = followUserRepositoryImpl.findAllByFollowedId(userId).
+                                        stream().
+                                        map(FollowEntity::getFollowerId).
+                                        map(id -> userService.getUserNameById(userId)).
+                                        toList();
+        return followedUserList;
     }
 
     // フォロー中の人数をカウント

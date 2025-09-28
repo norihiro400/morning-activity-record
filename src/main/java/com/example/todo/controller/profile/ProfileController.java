@@ -83,9 +83,9 @@ public class ProfileController {
     public String followingUser(@PathVariable String username, Model model){
         UserEntity user = userService.findByUsername(username);
         Long userId = user.getId();
-        var followingUserIdList = followService.getFollowingUserId(userId);
+        var followingUserList = followService.getFollowingUser(userId);
         model.addAttribute("following_or_followed", "フォロー中");
-        model.addAttribute("usersIdList", followingUserIdList);
+        model.addAttribute("usersList", followingUserList);
         return "profile/users";
     }
 
@@ -94,9 +94,9 @@ public class ProfileController {
     public String followedUser(@PathVariable String username, Model model){
         UserEntity user = userService.findByUsername(username);
         Long userId = user.getId();
-        var followedUserIdList = followService.getFollowedUserId(userId);
+        var followedUserList = followService.getFollowedUser(userId);
         model.addAttribute("following_or_followed", "フォロワー");
-        model.addAttribute("usersIdList", followedUserIdList);
+        model.addAttribute("usersList", followedUserList);
         return "profile/users";
     }
 
