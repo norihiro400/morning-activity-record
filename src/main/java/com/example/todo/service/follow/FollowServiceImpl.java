@@ -43,7 +43,7 @@ public class FollowServiceImpl implements FollowService {
         List<String> followingUserList = followUserRepositoryImpl.findAllByFollowerId(userId).
                                         stream().
                                         map(FollowEntity::getFollowedId).
-                                        map(id -> userService.getUserNameById(userId)).
+                                        map(id -> userService.getUserNameById(id)).
                                         toList();        
         return followingUserList; 
     }
@@ -62,7 +62,7 @@ public class FollowServiceImpl implements FollowService {
         List<String> followedUserList = followUserRepositoryImpl.findAllByFollowedId(userId).
                                         stream().
                                         map(FollowEntity::getFollowerId).
-                                        map(id -> userService.getUserNameById(userId)).
+                                        map(id -> userService.getUserNameById(id)).
                                         toList();
         return followedUserList;
     }
