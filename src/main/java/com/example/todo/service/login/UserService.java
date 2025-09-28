@@ -1,4 +1,6 @@
 package com.example.todo.service.login;
+import java.util.stream.Stream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.context.annotation.Lazy;
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Service;
 import com.example.todo.controller.login.UserDTO;
 import com.example.todo.repository.UserRepository;
 import com.example.todo.security.UserPrincipal;
+import com.example.todo.service.follow.FollowEntity;
+
 import jakarta.transaction.Transactional;
 
 
@@ -53,6 +57,10 @@ public class UserService implements UserDetailsService{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         return username;
+    }
+
+    public String getUserNameById(Long id){
+        return userRepository.findById(id).map(UserEntity::getUsername).orElse("unknown");
     }
 
     

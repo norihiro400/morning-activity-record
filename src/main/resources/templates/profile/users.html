@@ -74,9 +74,9 @@
     <div class="container fade-in">
         <div class="row">
             <!-- ユーザー一覧をループで表示 -->
-            <div class="col-md-4" th:each="userId : ${usersIdList}">
+            <div class="col-md-4" th:each="username : ${usersList}">
                 <div class="user-card">
-                    <h2 th:text="${userId}"></h2>
+                    <h2 th:text="${username}"></h2>
                 </div>
             </div>
         </div>
