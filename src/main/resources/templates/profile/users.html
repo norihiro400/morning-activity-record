@@ -76,7 +76,8 @@
             <!-- ユーザー一覧をループで表示 -->
             <div class="col-md-4" th:each="username : ${usersList}">
                 <div class="user-card">
-                    <h2 th:text="${username}"></h2>
+                    <!-- <h2 th:text="${username}"></h2> -->
+                    <a th:href="@{/profile/{username}(username = *{username})}" th:text = *{username}></a>
                 </div>
             </div>
         </div>
