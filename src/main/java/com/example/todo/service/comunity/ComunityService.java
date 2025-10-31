@@ -39,7 +39,7 @@ public class ComunityService {
     //質問取得　ページネーション対応
     public Page<ComunityEntity> findQuestionPage(int page , int size){
         Pageable pageable = PageRequest.of(page, size);
-        return comunityRepository.findQuestionPage(pageable);
+        return comunityRepository.findAll(pageable);
     }
 
     //質問の回答を投稿

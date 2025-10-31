@@ -6,5 +6,5 @@ import com.example.todo.service.comunity.ComunityEntity;
 
 public interface ComunityRepository extends JpaRepository<ComunityEntity,Long>{
     
-    Page<ComunityEntity> findQuestionPage(Pageable pageable);
+    Page<ComunityEntity> findAll(Pageable pageable);
 }
