@@ -1,4 +1,6 @@
 package com.example.todo.repository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,6 +23,9 @@ public interface TaskRepository extends JpaRepository<TaskEntity,Long> {
     List<TaskEntity> findByScheduledDate(LocalDate scheduled_date);
 
     List<TaskEntity> findByUserId(Long user_id);
+
+    // ページネーション対応
+    Page<TaskEntity> findByUserIdAndIsDoneTrue(Long userId, Pageable pageable);
 
     @Query(value = "select * from task where scheduled_date = :date and user_id = :userId and is_Done = false",nativeQuery = true)
     List<TaskEntity> findByScheduledDateAndUserIdAndIsDone(@Param("date") LocalDate date,@Param("userId") Long userId);

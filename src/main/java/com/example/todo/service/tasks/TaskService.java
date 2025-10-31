@@ -6,6 +6,11 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.example.todo.repository.TaskDetailRepository;
@@ -46,6 +51,13 @@ public class TaskService {
     public List<TaskEntity> findByuserId(Long id){
         return taskRepository.findByUserIdAndTrue(id);
     }
+
+    // ページネーション対応版
+    public Page<TaskEntity> findByUserIdPaged(Long userId , int page , int size){
+        Pageable pageable = PageRequest.of(page, size, Sort.by("scheduledDate").descending());
+        return taskRepository.findByUserIdAndIsDoneTrue(userId, pageable);
+    }
+
     //指定した日づけの朝活を取得(自分のユーザーIDのもののみ取得)かつisDoneがfalse(未達成)のもの
     public List<TaskEntity> findByDate(LocalDate localDate,Long userId){
         return taskRepository.findByScheduledDateAndUserIdAndIsDone(localDate,userId);

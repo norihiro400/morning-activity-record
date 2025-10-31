@@ -2,6 +2,8 @@ package com.example.todo.controller.tasks;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,12 +14,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.example.todo.service.login.UserEntity;
 import com.example.todo.service.login.UserService;
 import com.example.todo.service.tasks.TaskDetailEntity;
 import com.example.todo.service.tasks.TaskEntity;
 import com.example.todo.service.tasks.TaskService;
+
+import jakarta.websocket.server.PathParam;
 
 @Controller
 @RequestMapping("/tasks")
@@ -71,16 +76,32 @@ public class TasksController {
         return "redirect:/tasks";
     }
 
-    // 完了または未達成のミッションの記録の表示
+    // 完了または未達成のミッションの記録の表示(一覧表示)
+    // ページネーション対応させたい
     @GetMapping("/record")
-    public String record(Model model){
+    public String record(Model model, @RequestParam(defaultValue = "0") int page){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         UserEntity user = userService.findByUsername(username);
-        var taskList = taskService.findByuserId(user.getId()).stream().map(TaskDTO::toDTO).toList();
-        model.addAttribute("tasklist",taskList);
+        int pageSize = 10;
+        Page<TaskEntity> taskPage = taskService.findByUserIdPaged(user.getId(), page, pageSize);
+
+        model.addAttribute("tasklist", taskPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", taskPage.getTotalPages());
+        model.addAttribute("hasNext", taskPage.hasNext());
+        model.addAttribute("hasPrevious", taskPage.hasPrevious());
         return "tasks/record";
     }  
+    // @GetMapping("/record")
+    // public String record(Model model){
+    //     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    //     String username = authentication.getName();
+    //     UserEntity user = userService.findByUsername(username);
+    //     var taskList = taskService.findByuserId(user.getId()).stream().map(TaskDTO::toDTO).toList();
+    //     model.addAttribute("tasklist",taskList);
+    //     return "tasks/record";
+    // }  
 
     // 詳細画面
     @GetMapping("/{id}")
