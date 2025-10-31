@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.todo.repository.AnswerRepository;
 import com.example.todo.repository.ComunityRepository;
-import com.example.todo.repository.TaskDetailRepository;
-import com.example.todo.service.tasks.TaskDetailEntity;
 
 
 @Service
@@ -32,6 +34,12 @@ public class ComunityService {
     //すべての質問の取得
     public List<ComunityEntity> findAllQuestion(){
         return comunityRepository.findAll();
+    }
+
+    //質問取得　ページネーション対応
+    public Page<ComunityEntity> findQuestionPage(int page , int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return comunityRepository.findQuestionPage(pageable);
     }
 
     //質問の回答を投稿

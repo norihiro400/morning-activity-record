@@ -1,5 +1,7 @@
 package com.example.todo.controller.comunity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,9 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.example.todo.exception.QuestionNotFoundException;
 import com.example.todo.repository.AnswerRepository;
+import com.example.todo.service.comunity.ComunityEntity;
 import com.example.todo.service.comunity.ComunityService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -28,13 +32,26 @@ public class ComunityController {
     
 
     //コミュニティ画面
+    // 質問一覧取得のページネーション対応
     @GetMapping("")
-    public String comunity(Model model) {
-        //すべての質問を取得
-        var questionlist = comunityService.findAllQuestion().stream().map(ComunityDTO::toDTO).toList();
-        model.addAttribute("questions", questionlist);
+    public String comunity(Model model , @RequestParam(defaultValue = "0") int page) {
+        int pageSize = 5;
+        //質問を取得
+        Page<ComunityEntity> questionlist = comunityService.findQuestionPage(page, pageSize);
+        model.addAttribute("questions", questionlist.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", questionlist.getTotalPages());
+        model.addAttribute("hasNext", questionlist.hasNext());
+        model.addAttribute("hasPrevious", questionlist.hasPrevious());
         return "comunity/comunity";
     }
+    // @GetMapping("")
+    // public String comunity(Model model) {
+    //     //すべての質問を取得
+    //     var questionlist = comunityService.findAllQuestion().stream().map(ComunityDTO::toDTO).toList();
+    //     model.addAttribute("questions", questionlist);
+    //     return "comunity/comunity";
+    // }
 
     @GetMapping("/{questionId}")
     public String questionDetail(@PathVariable("questionId") Long questionId, Model model) {
@@ -49,7 +66,7 @@ public class ComunityController {
     @PostMapping("")
     public String postMethodName(@Validated ComunityForm form,BindingResult bindingResult,Model model) {
         if (bindingResult.hasErrors()){
-            return comunity(model);
+            return comunity(model,0);
         }
         var entity = form.toEntity();
         //質問の保存
