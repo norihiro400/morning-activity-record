@@ -370,14 +370,14 @@
         <!-- ページネーション -->
         <div class="pagination" style="text-align: center; margin: 2rem 0;">
             <a th:if="${hasPrevious}"
-            th:href="@{/record(page=${currentPage - 1})}"
+            th:href="@{/comunity(page=${currentPage - 1})}"
             style="margin-right: 1rem; text-decoration: none; color: #4CAF50;">← 前へ</a>
 
             <span th:text="${currentPage + 1}"></span> /
             <span th:text="${totalPages}"></span>
 
             <a th:if="${hasNext}"
-            th:href="@{/record(page=${currentPage + 1})}"
+            th:href="@{/comunity(page=${currentPage + 1})}"
             style="margin-left: 1rem; text-decoration: none; color: #4CAF50;">次へ →</a>
         </div>
     </div>
