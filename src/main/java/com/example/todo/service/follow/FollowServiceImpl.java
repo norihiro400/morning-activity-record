@@ -23,7 +23,7 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public void unfollowUser(FollowEntity entity){
-        followUserRepositoryImpl.delete(entity);
+        followUserRepositoryImpl.deleteByFollowerIdAndFollowedId(entity.getFollowerId(),entity.getFollowedId());
     }
 
     // フォロー済みかどうかの確認

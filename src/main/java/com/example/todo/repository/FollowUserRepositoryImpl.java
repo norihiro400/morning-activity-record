@@ -13,6 +13,8 @@ public interface FollowUserRepositoryImpl extends JpaRepository<FollowEntity, Lo
 
     boolean existsByFollowerIdAndFollowedId(Long followingId, Long followedId);
 
+    void deleteByFollowerIdAndFollowedId(Long followingId, Long followedId);
+
     List<FollowEntity> findAllByFollowerId(Long userId);
 
     List<FollowEntity> findAllByFollowedId(Long userid);
