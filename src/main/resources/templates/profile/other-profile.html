@@ -96,10 +96,15 @@
                             </button>
                         </div>
                     </form>
-                    <!-- <form th:action="@{/profile/unfollow/{username}(username = *{username})}" method="post">
-                        <div class="mt-3">
-                        </div>
-                    </form> -->
+                    <form th:if="${isFollowing}"
+                        th:action="@{/profile/unfollow/{username}(username=*{username})}"
+                        method="post"
+                        class="mt-2">
+                        <button type="submit"
+                                class="btn btn-outline-danger">
+                            フォロー解除
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
