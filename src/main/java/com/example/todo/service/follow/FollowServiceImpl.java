@@ -2,6 +2,7 @@ package com.example.todo.service.follow;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.todo.repository.FollowUserRepositoryImpl;
 import com.example.todo.service.login.UserService;
@@ -22,8 +23,31 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
+    @Transactional
     public void unfollowUser(FollowEntity entity){
-        followUserRepositoryImpl.deleteByFollowerIdAndFollowedId(entity.getFollowerId(),entity.getFollowedId());
+        boolean exists = followUserRepositoryImpl.existsByFollowerIdAndFollowedId(
+            entity.getFollowerId(),
+            entity.getFollowedId()
+        );
+
+        if (!exists) {
+            System.out.println("[WARN] 該当するフォロー関係が存在しません。followerId=" 
+                + entity.getFollowerId() + ", followedId=" + entity.getFollowedId());
+            // ここでreturnしてスルーでもいいし、例外投げてもいい
+            return;
+        }
+
+        try {
+            followUserRepositoryImpl.deleteByFollowerIdAndFollowedId(
+                entity.getFollowerId(),
+                entity.getFollowedId()
+            );
+            System.out.println("[INFO] フォロー解除成功: followerId=" 
+                + entity.getFollowerId() + ", followedId=" + entity.getFollowedId());
+        } catch (Exception e) {
+            System.err.println("[ERROR] フォロー解除中にエラー発生: " + e.getMessage());
+            throw e; // 上層でハンドリングしたいならここで再throw
+        }
     }
 
     // フォロー済みかどうかの確認
