@@ -38,7 +38,8 @@ public class ComunityController {
         int pageSize = 5;
         //質問を取得
         Page<ComunityEntity> questionlist = comunityService.findQuestionPage(page, pageSize);
-        model.addAttribute("questions", questionlist.getContent());
+        var questionlist_content = questionlist.getContent().stream().map(ComunityDTO::toDTO).toList();
+        model.addAttribute("questions", questionlist_content);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", questionlist.getTotalPages());
         model.addAttribute("hasNext", questionlist.hasNext());

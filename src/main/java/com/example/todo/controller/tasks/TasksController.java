@@ -85,8 +85,8 @@ public class TasksController {
         UserEntity user = userService.findByUsername(username);
         int pageSize = 10;
         Page<TaskEntity> taskPage = taskService.findByUserIdPaged(user.getId(), page, pageSize);
-
-        model.addAttribute("tasklist", taskPage.getContent());
+        var tasklist = taskPage.getContent().stream().map(TaskDTO::toDTO);
+        model.addAttribute("tasklist", tasklist);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", taskPage.getTotalPages());
         model.addAttribute("hasNext", taskPage.hasNext());
