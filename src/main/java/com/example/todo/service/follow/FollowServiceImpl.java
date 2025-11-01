@@ -1,8 +1,6 @@
 package com.example.todo.service.follow;
 
 import java.util.List;
-
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Service;
 
 import com.example.todo.repository.FollowUserRepositoryImpl;
@@ -21,6 +19,11 @@ public class FollowServiceImpl implements FollowService {
     public void followUser(FollowEntity entity){
         // フォロー処理の実装
         followUserRepositoryImpl.save(entity);
+    }
+
+    @Override
+    public void unfollowUser(FollowEntity entity){
+        followUserRepositoryImpl.delete(entity);
     }
 
     // フォロー済みかどうかの確認

@@ -81,10 +81,8 @@ public class ProfileController {
     // フォロー解除
     @PostMapping("/unfollow/{username}")
     public String unfollowUser(@PathVariable String username){
-        // // フォロー処理の実装
-        // FollowEntity followEntity = createFollowEntity(username);
-        // // フォロー処理の呼び出し
-        // followService.followUser(followEntity);
+        FollowEntity followEntity = createFollowEntity(username);
+        followService.unfollowUser(followEntity);
         String encodedUsername = URLEncoder.encode(username, StandardCharsets.UTF_8);
         return "redirect:/profile/" + encodedUsername;
     }

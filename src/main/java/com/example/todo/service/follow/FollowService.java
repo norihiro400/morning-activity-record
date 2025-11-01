@@ -7,5 +7,6 @@ public interface FollowService {
     public boolean isFollowing(FollowEntity entity);
     public List<Long> getFollowingUserId(Long userid);
     public List<Long> getFollowedUserId(Long userId);
+    public void unfollowUser(FollowEntity entity);
     // public void unfollowUser(Long followerId, Long followedId);
 }
